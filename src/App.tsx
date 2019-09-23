@@ -57,8 +57,8 @@ const App: React.FC = () => {
     [sourceType, source, transform, destType],
   );
   return (
-    <main>
-      <section style={{ flex: 2 }}>
+    <>
+      <section style={{ width: "40%" }}>
         <select value={sourceType} onChange={e => setSourceType(e.target.value)}>
           {Object.keys(sourceConverters).map(conv => (
             <option value={conv}>{conv}</option>
@@ -69,7 +69,7 @@ const App: React.FC = () => {
           value={source}
           options={{
             mode: sourceType,
-            theme,
+            theme: dataTheme,
             lineNumbers: true,
           }}
           onBeforeChange={(editor, data, value) => {
@@ -77,13 +77,13 @@ const App: React.FC = () => {
           }}
         />
       </section>
-      <section style={{ flex: 1 }}>
+      <section style={{ width: "20%" }}>
         <ControlledCodeMirror
           className="code-editor"
           value={transform}
           options={{
             mode: "javascript",
-            theme,
+            theme: codeTheme,
             lineNumbers: true,
             placeholder: "// feel free to modify `data` using JavaScript here",
           }}
@@ -92,7 +92,7 @@ const App: React.FC = () => {
           }}
         />
       </section>
-      <section style={{ flex: 2 }}>
+      <section style={{ width: "40%" }}>
         <select value={destType} onChange={e => setDestType(e.target.value)}>
           {Object.keys(destinationConverters).map(conv => (
             <option value={conv}>{conv}</option>
@@ -103,14 +103,14 @@ const App: React.FC = () => {
           className="code-editor"
           options={{
             mode: sourceType,
-            theme,
+            theme: dataTheme,
             lineNumbers: true,
             readOnly: true,
           }}
           onBeforeChange={(editor, data, value) => {}}
         />
       </section>
-    </main>
+    </>
   );
 };
 
