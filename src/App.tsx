@@ -1,6 +1,11 @@
 import React from "react";
 import toml from "toml";
 import yaml from "js-yaml";
+import { Controlled as ControlledCodeMirror } from "react-codemirror2";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/solarized.css";
+import "codemirror/mode/yaml/yaml";
+import "codemirror/mode/toml/toml";
 
 const sourceConverters: { [key: string]: (data: any) => any } = {
   json: JSON.parse,
@@ -43,7 +48,17 @@ const App: React.FC = () => {
                 <option value={conv}>{conv}</option>
               ))}
             </select>
-            <textarea value={source} onChange={e => setSource(e.target.value)} />
+            <ControlledCodeMirror
+              value={source}
+              options={{
+                mode: sourceType,
+                theme: "solarized",
+                lineNumbers: true,
+              }}
+              onBeforeChange={(editor, data, value) => {
+                setSource(value);
+              }}
+            />
           </td>
           <td>
             <select value={destType} onChange={e => setDestType(e.target.value)}>
@@ -51,7 +66,16 @@ const App: React.FC = () => {
                 <option value={conv}>{conv}</option>
               ))}
             </select>
-            <textarea readOnly value={result.error ? `ERROR:\n${result.error}` : result.output || ""} />
+            <ControlledCodeMirror
+              value={result.error ? `ERROR:\n${result.error}` : result.output || ""}
+              options={{
+                mode: sourceType,
+                theme: "solarized",
+                lineNumbers: true,
+                readOnly: true,
+              }}
+              onBeforeChange={(editor, data, value) => {}}
+            />
           </td>
         </tr>
       </tbody>
