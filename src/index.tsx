@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import "semantic-ui-css/semantic.min.css";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/solarized.css";
 import "codemirror/mode/yaml/yaml";

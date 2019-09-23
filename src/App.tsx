@@ -3,35 +3,50 @@ import React from "react";
 import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import { destinationConverters, sourceConverters } from "./converters";
 import { doTransform, TransformResult } from "./core";
+import { Menu, MenuItemProps } from "semantic-ui-react";
 
 const dataTheme = "solarized light";
 const codeTheme = "solarized dark";
 
-interface SourceProps {
+interface Styleable {
+  style?: React.CSSProperties;
+}
+
+interface SourceProps extends Styleable {
   source: string;
   sourceType: string;
-  onChangeSourceType: (str: string) => void;
   onChangeSource: (str: string) => void;
 }
 
-interface TransformProps {
+interface TransformProps extends Styleable {
   transform: string;
-  onChangeTransform: (s: string) => void
+  onChangeTransform: (s: string) => void;
 }
 
-interface DestProps {
+interface DestProps extends Styleable {
   destType: string;
-  onChangeDestType: (s: string) => void;
   result: TransformResult;
 }
 
-const SourceSettings: React.FC<SourceProps> = ({ sourceType, onChangeSourceType, source, onChangeSource }) => (
-  <>
-    <select value={sourceType} onChange={e => onChangeSourceType(e.target.value)}>
-      {Object.keys(sourceConverters).map(conv => (
-        <option value={conv}>{conv}</option>
+interface ConverterSelectProps extends Styleable {
+  value: string;
+  options: string[];
+  onChange: (val: string) => void;
+}
+
+const ConverterSelect: React.FC<ConverterSelectProps> = ({ value, options, onChange, style }) => {
+  const handleClick = (e: React.MouseEvent, { name }: MenuItemProps) => name && onChange(name);
+  return (
+    <Menu fluid size="mini" style={style}>
+      {options.map(item => (
+        <Menu.Item name={item} active={value === item} onClick={handleClick} />
       ))}
-    </select>
+    </Menu>
+  );
+};
+
+const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeSource, style }) => (
+  <div className="codebox-wrapper" style={style}>
     <ControlledCodeMirror
       className="code-editor"
       value={source}
@@ -41,31 +56,27 @@ const SourceSettings: React.FC<SourceProps> = ({ sourceType, onChangeSourceType,
       }}
       onBeforeChange={(editor, data, value) => onChangeSource(value)}
     />
-  </>
+  </div>
 );
 
-
-const TransformSettings: React.FC<TransformProps> = ({ transform, onChangeTransform }) => (
-  <ControlledCodeMirror
-    className="code-editor"
-    value={transform}
-    options={{
-      mode: "javascript",
-      theme: codeTheme,
-      lineNumbers: true,
-      placeholder: "// feel free to modify `data` using JavaScript here",
-    }}
-    onBeforeChange={(editor, data, value) => onChangeTransform(value)}
-  />
+const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, style }) => (
+  <div className="codebox-wrapper" style={style}>
+    <ControlledCodeMirror
+      className="code-editor"
+      value={transform}
+      options={{
+        mode: "javascript",
+        theme: codeTheme,
+        lineNumbers: true,
+        placeholder: "// feel free to modify `data` using JavaScript here",
+      }}
+      onBeforeChange={(editor, data, value) => onChangeTransform(value)}
+    />
+  </div>
 );
 
-const DestSettings: React.FC<DestProps> = ({ destType, result, onChangeDestType }) => (
-  <>
-    <select value={destType} onChange={e => onChangeDestType(e.target.value)}>
-      {Object.keys(destinationConverters).map(conv => (
-        <option value={conv}>{conv}</option>
-      ))}
-    </select>
+const DestBox: React.FC<DestProps> = ({ destType, result, style }) => (
+  <div className="codebox-wrapper" style={style}>
     <ControlledCodeMirror
       value={result.error ? `ERROR:\n${result.error}` : result.output || ""}
       className="code-editor"
@@ -77,7 +88,7 @@ const DestSettings: React.FC<DestProps> = ({ destType, result, onChangeDestType 
       }}
       onBeforeChange={() => void 8}
     />
-  </>
+  </div>
 );
 
 const App: React.FC = () => {
@@ -93,14 +104,20 @@ const App: React.FC = () => {
   ]);
   return (
     <>
-      <SourceSettings
+      <div style={{ gridArea: "src-header" }}>
+        <ConverterSelect value={sourceType} options={Object.keys(sourceConverters)} onChange={setSourceType} />
+      </div>
+      <div style={{ gridArea: "dest-header" }}>
+        <ConverterSelect value={destType} options={Object.keys(destinationConverters)} onChange={setDestType} />
+      </div>
+      <TransformBox transform={transform} onChangeTransform={setTransform} style={{ gridArea: "xform-content" }} />
+      <SourceBox
         source={source}
         sourceType={sourceType}
-        onChangeSourceType={setSourceType}
         onChangeSource={setSource}
+        style={{ gridArea: "src-content" }}
       />
-      <TransformSettings transform={transform} onChangeTransform={setTransform} />
-      <DestSettings destType={destType} onChangeDestType={setDestType} result={result} />
+      <DestBox destType={destType} result={result} style={{ gridArea: "dest-content" }} />
     </>
   );
 };
