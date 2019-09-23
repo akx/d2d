@@ -7,7 +7,10 @@
   },
   "dependencies": {
     "codemirror": "^5.49.0",
+    "d3-dsv": "^1.1.1",
     "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "ramda": "^0.26.1",
     "react": "^16.9.0",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.9.0",
@@ -16,9 +19,13 @@
     "typescript": "3.6.3"
   },
   "devDependencies": {
+    "@types/codemirror": "^0.0.77",
+    "@types/d3-dsv": "^1.0.36",
     "@types/jest": "24.0.18",
     "@types/js-yaml": "^3.12.1",
+    "@types/lodash": "^4.14.138",
     "@types/node": "12.7.5",
+    "@types/ramda": "^0.26.22",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
     "prettier": "^1.18.2"

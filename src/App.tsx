@@ -1,6 +1,9 @@
 import React from "react";
 import toml from "toml";
 import yaml from "js-yaml";
+import * as d3dsv from "d3-dsv";
+import lodash from "lodash";
+import * as ramda from "ramda";
 import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/solarized.css";
@@ -9,20 +12,25 @@ import "codemirror/mode/toml/toml";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/addon/display/placeholder";
 
-const theme = "solarized light";
+const dataTheme = "solarized light";
+const codeTheme = "solarized dark";
 
 const sourceConverters: { [key: string]: (data: any) => any } = {
+  csv: d3dsv.csvParse,
   json: JSON.parse,
-  toml: toml.parse,
-  yaml: yaml.safeLoad,
   text: data => data,
+  toml: toml.parse,
+  tsv: d3dsv.tsvParse,
+  yaml: yaml.safeLoad,
 };
 
 const destinationConverters: { [key: string]: (data: any) => string } = {
   "json-compact": JSON.stringify,
+  csv: d3dsv.csvFormat,
   json: data => JSON.stringify(data, null, 2),
-  yaml: yaml.safeDump,
   text: data => "" + data,
+  tsv: d3dsv.tsvFormat,
+  yaml: yaml.safeDump,
 };
 
 const App: React.FC = () => {
@@ -36,6 +44,8 @@ const App: React.FC = () => {
         const input = sourceConverters[sourceType](source);
         let data = input;
         if (transform.trim().length) {
+          const _ = lodash;
+          const R = ramda;
           eval(transform);
         }
         const output = destinationConverters[destType](data);
