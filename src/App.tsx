@@ -7,6 +7,8 @@ import "codemirror/theme/solarized.css";
 import "codemirror/mode/yaml/yaml";
 import "codemirror/mode/toml/toml";
 
+const theme = "solarized light";
+
 const sourceConverters: { [key: string]: (data: any) => any } = {
   json: JSON.parse,
   toml: toml.parse,
@@ -39,47 +41,45 @@ const App: React.FC = () => {
     [source, sourceType, destType],
   );
   return (
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <select value={sourceType} onChange={e => setSourceType(e.target.value)}>
-              {Object.keys(sourceConverters).map(conv => (
-                <option value={conv}>{conv}</option>
-              ))}
-            </select>
-            <ControlledCodeMirror
-              value={source}
-              options={{
-                mode: sourceType,
-                theme: "solarized",
-                lineNumbers: true,
-              }}
-              onBeforeChange={(editor, data, value) => {
-                setSource(value);
-              }}
-            />
-          </td>
-          <td>
-            <select value={destType} onChange={e => setDestType(e.target.value)}>
-              {Object.keys(destinationConverters).map(conv => (
-                <option value={conv}>{conv}</option>
-              ))}
-            </select>
-            <ControlledCodeMirror
-              value={result.error ? `ERROR:\n${result.error}` : result.output || ""}
-              options={{
-                mode: sourceType,
-                theme: "solarized",
-                lineNumbers: true,
-                readOnly: true,
-              }}
-              onBeforeChange={(editor, data, value) => {}}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <main>
+      <section>
+        <select value={sourceType} onChange={e => setSourceType(e.target.value)}>
+          {Object.keys(sourceConverters).map(conv => (
+            <option value={conv}>{conv}</option>
+          ))}
+        </select>
+        <ControlledCodeMirror
+          className="code-editor"
+          value={source}
+          options={{
+            mode: sourceType,
+            theme,
+            lineNumbers: true,
+          }}
+          onBeforeChange={(editor, data, value) => {
+            setSource(value);
+          }}
+        />
+      </section>
+      <section>
+        <select value={destType} onChange={e => setDestType(e.target.value)}>
+          {Object.keys(destinationConverters).map(conv => (
+            <option value={conv}>{conv}</option>
+          ))}
+        </select>
+        <ControlledCodeMirror
+          value={result.error ? `ERROR:\n${result.error}` : result.output || ""}
+          className="code-editor"
+          options={{
+            mode: sourceType,
+            theme,
+            lineNumbers: true,
+            readOnly: true,
+          }}
+          onBeforeChange={(editor, data, value) => {}}
+        />
+      </section>
+    </main>
   );
 };
 
