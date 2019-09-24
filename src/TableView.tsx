@@ -37,7 +37,12 @@ const TableView = React.memo(({ data }: { data: any }) => {
         />
       );
     }
-    return <LoadableTable data={dataArray} columns={columnOrder.map(col => ({ accessor: col, Header: col }))} />;
+    return (
+      <LoadableTable
+        data={dataArray}
+        columns={columnOrder.map(col => ({ accessor: col, Header: col, Cell: CellRenderer }))}
+      />
+    );
   } catch (error) {
     return <ErrorDisplay result={{ phase: "output", error, type: "error" }} />;
   }
