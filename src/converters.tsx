@@ -2,7 +2,6 @@ import * as d3dsv from "d3-dsv";
 import toml from "toml";
 import yaml from "js-yaml";
 import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
-import React from "react";
 import { tableConverter } from "./TableView";
 import { xlsxConverter } from "./XlsxView";
 

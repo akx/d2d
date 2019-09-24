@@ -4,11 +4,23 @@ import React from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { getColumns } from "./table-utils";
 import Loadable from "react-loadable";
+import { CellInfo } from "react-table";
 
 const LoadableTable = Loadable({
   loader: () => import("react-table"),
   loading: () => <div>Loading table</div>,
 });
+
+const CellRenderer = ({ value }: CellInfo) => {
+  if (typeof value === "object") {
+    try {
+      value = JSON.stringify(value);
+    } catch (error) {
+      value = "<unrenderable>";
+    }
+  }
+  return <>{value}</>;
+};
 
 const TableView = React.memo(({ data }: { data: any }) => {
   try {
