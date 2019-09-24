@@ -1,24 +1,14 @@
 import { DestinationConverter } from "./types";
 import ErrorWrapper from "./ErrorWrapper";
-import ReactTable from "react-table";
 import React from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
+import { getColumns } from "./table-utils";
+import Loadable from "react-loadable";
 
-function getColumns(dataArray: any[]) {
-  const columnOrder: string[] = [];
-  const columnSet = new Set<string>();
-  dataArray.forEach(
-    datum =>
-      datum &&
-      Object.keys(datum as object).forEach(column => {
-        if (!columnSet.has(column)) {
-          columnOrder.push(column);
-          columnSet.add(column);
-        }
-      }),
-  );
-  return columnOrder;
-}
+const LoadableTable = Loadable({
+  loader: () => import("react-table"),
+  loading: () => <div>Loading table</div>,
+});
 
 const TableView = React.memo(({ data }: { data: any }) => {
   try {
@@ -35,7 +25,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
         />
       );
     }
-    return <ReactTable data={dataArray} columns={columnOrder.map(col => ({ accessor: col, Header: col }))} />;
+    return <LoadableTable data={dataArray} columns={columnOrder.map(col => ({ accessor: col, Header: col }))} />;
   } catch (error) {
     return <ErrorDisplay result={{ phase: "output", error, type: "error" }} />;
   }

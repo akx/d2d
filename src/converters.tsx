@@ -4,6 +4,7 @@ import yaml from "js-yaml";
 import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
 import React from "react";
 import { tableConverter } from "./TableView";
+import { xlsxConverter } from "./XlsxView";
 
 export const sourceConverters: { [key: string]: SourceConverter } = {
   csv: d3dsv.csvParse,
@@ -25,4 +26,5 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   tsv: stringTransform(d3dsv.tsvFormat),
   yaml: stringTransform(yaml.safeDump),
   table: tableConverter,
+  xlsx: xlsxConverter,
 };
