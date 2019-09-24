@@ -16,3 +16,5 @@ export interface ErrorTransformResult extends BaseTransformResult {
 }
 
 export type TransformResult = ElementTransformResult | StringTransformResult | ErrorTransformResult;
+export type SourceConverter = (data: any) => any;
+export type DestinationConverter<T = TransformResult> = (data: any) => T;

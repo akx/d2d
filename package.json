@@ -6,6 +6,7 @@
     "pnp": false
   },
   "dependencies": {
+    "@types/react-table": "^6.8.5",
     "codemirror": "^5.49.0",
     "d3-dsv": "^1.1.1",
     "js-yaml": "^3.13.1",
@@ -15,6 +16,7 @@
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.2",
+    "react-table": "^6.10.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.1",
     "toml": "^3.0.0",
