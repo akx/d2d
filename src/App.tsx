@@ -2,8 +2,9 @@ import React from "react";
 
 import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import { destinationConverters, sourceConverters } from "./converters";
-import { doTransform, TransformResult } from "./core";
+import { doTransform } from "./core";
 import { Menu, MenuItemProps } from "semantic-ui-react";
+import { TransformResult } from "./types";
 
 const dataTheme = "solarized light";
 const codeTheme = "solarized dark";
@@ -75,21 +76,37 @@ const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, 
   </div>
 );
 
-const DestBox: React.FC<DestProps> = ({ destType, result, style }) => (
-  <div className="codebox-wrapper" style={style}>
-    <ControlledCodeMirror
-      value={result.error ? `ERROR:\n${result.error}` : result.output || ""}
-      className="code-editor"
-      options={{
-        mode: destType,
-        theme: dataTheme,
-        lineNumbers: true,
-        readOnly: true,
-      }}
-      onBeforeChange={() => void 8}
-    />
-  </div>
-);
+const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
+  let comp: React.ReactChild | null = null;
+  switch (result.type) {
+    case "element":
+      comp = result.element;
+      break;
+    case "string":
+      comp = (
+        <ControlledCodeMirror
+          value={result.value}
+          className="code-editor"
+          options={{
+            mode: destType,
+            theme: dataTheme,
+            lineNumbers: true,
+            readOnly: true,
+          }}
+          onBeforeChange={() => void 8}
+        />
+      );
+      break;
+    case "error":
+      comp = <div>{result.error.toString()}</div>;
+      break;
+  }
+  return (
+    <div className="codebox-wrapper" style={style}>
+      {comp}
+    </div>
+  );
+};
 
 const App: React.FC = () => {
   const [source, setSource] = React.useState("");

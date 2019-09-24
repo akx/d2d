@@ -1,13 +1,9 @@
 import { destinationConverters, sourceConverters } from "./converters";
 import lodash from "lodash";
 import * as ramda from "ramda";
+import { TransformResult } from "./types";
 
-export interface TransformResult {
-  output: string | null;
-  error: string | null;
-}
-
-export function doTransform(sourceType: string, source: string, transform: string, destType: string) {
+export function doTransform(sourceType: string, source: string, transform: string, destType: string): TransformResult {
   try {
     const input = sourceConverters[sourceType](source);
     let data = input;
@@ -16,9 +12,8 @@ export function doTransform(sourceType: string, source: string, transform: strin
       const R = ramda; // eslint-disable-line
       eval(transform); // eslint-disable-line
     }
-    const output = destinationConverters[destType](data);
-    return { error: null, output };
+    return destinationConverters[destType](data);
   } catch (error) {
-    return { error, output: null };
+    return { error, type: "error" };
   }
 }

@@ -1,21 +1,23 @@
 body {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #root {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 40% auto 40%;
-    grid-template-rows: 35px auto;
-    grid-template-areas: "src-header xform-header dest-header" "src-content xform-content dest-content";
+  flex: 1;
+  display: grid;
+  grid-template-columns: 35% auto 35%;
+  grid-template-rows: 35px auto;
+  grid-template-areas: "src-header xform-header dest-header" "src-content xform-content dest-content";
 }
 
-.codebox-wrapper, .code-editor {
-    display: flex;
-    flex-direction: column;
+.codebox-wrapper,
+.code-editor {
+  display: flex;
+  flex-direction: column;
 }
 
-.code-editor, .code-editor .CodeMirror {
-    flex: 1;
+.code-editor,
+.code-editor .CodeMirror {
+  flex: 1;
 }
