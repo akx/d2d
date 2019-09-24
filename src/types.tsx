@@ -13,6 +13,7 @@ export interface StringTransformResult extends BaseTransformResult {
 export interface ErrorTransformResult extends BaseTransformResult {
   type: "error";
   error: Error;
+  phase: "input" | "transform" | "output";
 }
 
 export type TransformResult = ElementTransformResult | StringTransformResult | ErrorTransformResult;

@@ -5,6 +5,7 @@ import { destinationConverters, sourceConverters } from "./converters";
 import { doTransform } from "./core";
 import { Menu, MenuItemProps } from "semantic-ui-react";
 import { TransformResult } from "./types";
+import { ErrorDisplay } from "./ErrorDisplay";
 
 const dataTheme = "solarized light";
 const codeTheme = "solarized dark";
@@ -54,11 +55,19 @@ const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeSource, 
       options={{
         mode: sourceType,
         theme: dataTheme,
+        lineNumbers: true,
+        placeholder: `Paste or type in ${sourceType} data here.`,
       }}
       onBeforeChange={(editor, data, value) => onChangeSource(value)}
     />
   </div>
 );
+
+const TRANSFORM_PLACEHOLDER = `
+// Feel free to modify \`data\` using JavaScript here.
+// * Lodash is available as \`_\`
+// * Ramda is available as \`R\`
+`.trim();
 
 const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, style }) => (
   <div className="codebox-wrapper" style={style}>
@@ -69,7 +78,7 @@ const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, 
         mode: "javascript",
         theme: codeTheme,
         lineNumbers: true,
-        placeholder: "// feel free to modify `data` using JavaScript here",
+        placeholder: TRANSFORM_PLACEHOLDER,
       }}
       onBeforeChange={(editor, data, value) => onChangeTransform(value)}
     />
@@ -92,13 +101,14 @@ const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
             theme: dataTheme,
             lineNumbers: true,
             readOnly: true,
+            placeholder: `Output will appear here in ${destType}.`,
           }}
           onBeforeChange={() => void 8}
         />
       );
       break;
     case "error":
-      comp = <div>{result.error.toString()}</div>;
+      comp = <ErrorDisplay result={result} />;
       break;
   }
   return (

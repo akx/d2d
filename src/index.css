@@ -6,7 +6,9 @@ body {
 #root {
   flex: 1;
   display: grid;
-  grid-template-columns: 35% auto 35%;
+  grid-gap: 5px;
+  padding: 5px;
+  grid-template-columns: 5fr 4fr 5fr;
   grid-template-rows: 35px auto;
   grid-template-areas: "src-header xform-header dest-header" "src-content xform-content dest-content";
 }
@@ -20,4 +22,13 @@ body {
 .code-editor,
 .code-editor .CodeMirror {
   flex: 1;
+}
+
+.error-result {
+  padding: 5px;
+  color: #500;
+}
+
+.error-stack {
+  white-space: pre-line;
 }
