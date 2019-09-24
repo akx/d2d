@@ -17,11 +17,13 @@ body {
 .code-editor {
   display: flex;
   flex-direction: column;
+  overflow-x: auto;
 }
 
 .code-editor,
 .code-editor .CodeMirror {
   flex: 1;
+  max-width: 40vw;
 }
 
 .error-result {
