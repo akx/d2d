@@ -7,6 +7,7 @@ import { Menu, MenuItemProps } from "semantic-ui-react";
 import { TransformResult } from "./types";
 import { ErrorDisplay } from "./ErrorDisplay";
 import SplitPane from "react-split-pane";
+import Editor from "./Editor";
 
 const dataTheme = "solarized light";
 const codeTheme = "solarized dark";
@@ -50,8 +51,7 @@ const ConverterSelect: React.FC<ConverterSelectProps> = ({ value, options, onCha
 
 const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeSource, style }) => (
   <div className="codebox-wrapper" style={style}>
-    <ControlledCodeMirror
-      className="code-editor"
+    <Editor
       value={source}
       options={{
         mode: sourceType,
@@ -59,7 +59,7 @@ const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeSource, 
         lineNumbers: true,
         placeholder: `Paste or type in ${sourceType} data here.`,
       }}
-      onBeforeChange={(editor, data, value) => onChangeSource(value)}
+      onChange={onChangeSource}
     />
   </div>
 );
@@ -72,8 +72,7 @@ const TRANSFORM_PLACEHOLDER = `
 
 const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, style }) => (
   <div className="codebox-wrapper" style={style}>
-    <ControlledCodeMirror
-      className="code-editor"
+    <Editor
       value={transform}
       options={{
         mode: "javascript",
@@ -81,7 +80,7 @@ const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, 
         lineNumbers: true,
         placeholder: TRANSFORM_PLACEHOLDER,
       }}
-      onBeforeChange={(editor, data, value) => onChangeTransform(value)}
+      onChange={onChangeTransform}
     />
   </div>
 );
@@ -94,9 +93,8 @@ const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
       break;
     case "string":
       comp = (
-        <ControlledCodeMirror
+        <Editor
           value={result.value}
-          className="code-editor"
           options={{
             mode: destType,
             theme: dataTheme,
@@ -104,7 +102,7 @@ const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
             readOnly: true,
             placeholder: `Output will appear here in ${destType}.`,
           }}
-          onBeforeChange={() => void 8}
+          onChange={() => void 8}
         />
       );
       break;

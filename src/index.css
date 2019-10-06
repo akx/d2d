@@ -32,7 +32,8 @@ body {
 }
 
 .code-editor,
-.code-editor .CodeMirror {
+.code-editor .CodeMirror,
+textarea {
   flex: 1;
 }
 
