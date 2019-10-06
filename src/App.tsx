@@ -6,6 +6,7 @@ import { doTransform } from "./core";
 import { Menu, MenuItemProps } from "semantic-ui-react";
 import { TransformResult } from "./types";
 import { ErrorDisplay } from "./ErrorDisplay";
+import SplitPane from "react-split-pane";
 
 const dataTheme = "solarized light";
 const codeTheme = "solarized dark";
@@ -131,20 +132,25 @@ const App: React.FC = () => {
   ]);
   return (
     <>
-      <div style={{ gridArea: "src-header" }}>
-        <ConverterSelect value={sourceType} options={Object.keys(sourceConverters)} onChange={setSourceType} />
+      <div id="settings">
+        <div>
+          Input Format
+          <ConverterSelect value={sourceType} options={Object.keys(sourceConverters)} onChange={setSourceType} />
+        </div>
+        <div>
+          Output Format
+          <ConverterSelect value={destType} options={Object.keys(destinationConverters)} onChange={setDestType} />
+        </div>
       </div>
-      <div style={{ gridArea: "dest-header" }}>
-        <ConverterSelect value={destType} options={Object.keys(destinationConverters)} onChange={setDestType} />
+      <div id="main-panes">
+        <SplitPane split="vertical" defaultSize="35%">
+          <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
+          <SplitPane split="vertical" defaultSize="40%">
+            <TransformBox transform={transform} onChangeTransform={setTransform} />
+            <DestBox destType={destType} result={result} />
+          </SplitPane>
+        </SplitPane>
       </div>
-      <TransformBox transform={transform} onChangeTransform={setTransform} style={{ gridArea: "xform-content" }} />
-      <SourceBox
-        source={source}
-        sourceType={sourceType}
-        onChangeSource={setSource}
-        style={{ gridArea: "src-content" }}
-      />
-      <DestBox destType={destType} result={result} style={{ gridArea: "dest-content" }} />
     </>
   );
 };
