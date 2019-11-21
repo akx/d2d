@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import { destinationConverters, sourceConverters } from "./converters";
 import { doTransform } from "./core";
 import { Menu, MenuItemProps } from "semantic-ui-react";

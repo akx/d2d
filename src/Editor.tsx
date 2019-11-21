@@ -1,7 +1,7 @@
 import { EditorConfiguration } from "codemirror";
 import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import React from "react";
-import { Button, Checkbox, Icon, Popup } from "semantic-ui-react";
+import { Checkbox, Icon, Popup } from "semantic-ui-react";
 
 interface EditorProps {
   value: string;
