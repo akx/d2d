@@ -7,6 +7,9 @@ import { SourceBox } from "./components/SourceBox";
 import { TransformBox } from "./components/TransformBox";
 import { DestBox } from "./components/DestBox";
 import { Toolbar } from "./components/Toolbar";
+import createPersistedState from "use-persisted-state";
+
+const useLayoutState = createPersistedState('d2d-layout');
 
 const App: React.FC = () => {
   const [sourceType, setSourceType] = React.useState("yaml");
@@ -16,7 +19,7 @@ const App: React.FC = () => {
   };
   const [destType, setDestType] = React.useState("json");
   const [transform, setTransform] = React.useState("");
-  const [layout, setLayout] = React.useState(MainLayout.ThreeColumns);
+  const [layout, setLayout] = useLayoutState(MainLayout.ThreeColumns);
   const result: TransformResult = React.useMemo(() => doTransform(sourceType, source, transform, destType), [
     sourceType,
     source,
@@ -26,6 +29,7 @@ const App: React.FC = () => {
   let mainContent: React.ReactNode;
   switch (layout) {
     case MainLayout.ThreeColumns:
+    default:
       mainContent = (
         <SplitPane split="vertical" defaultSize="35%">
           <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
