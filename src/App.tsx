@@ -66,7 +66,9 @@ const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeSource, 
 const TRANSFORM_PLACEHOLDER = `
 // Feel free to modify \`data\` using JavaScript here.
 // * Lodash is available as \`_\`
+// ** e.g. \`_.reverse(data)\`
 // * Ramda is available as \`R\`
+// ** e.g. \`data = R.reverse(data)\`
 `.trim();
 
 const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, style }) => (
