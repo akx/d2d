@@ -45,7 +45,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "react-scripts build && ghpg -j -d build && git push origin gh-pages:gh-pages"
+    "deploy": "react-scripts build && ghpg -j -d build && git push origin gh-pages:gh-pages",
+    "prettify": "prettier --write 'src/*.ts*' 'src/**/*.ts*'"
   },
   "eslintConfig": {
     "extends": "react-app"
