@@ -2,6 +2,7 @@ import React from "react";
 import Editor from "../Editor";
 import { dataTheme } from "../consts";
 import { Styleable } from "../types";
+import { prettyNames } from "../converters";
 
 interface SourceProps extends Styleable {
   source: string;
@@ -17,7 +18,7 @@ export const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeS
         mode: sourceType,
         theme: dataTheme,
         lineNumbers: true,
-        placeholder: `Paste or type in ${sourceType} data here.`,
+        placeholder: `Paste or type in ${prettyNames[sourceType] || sourceType} data here.`,
       }}
       onChange={onChangeSource}
     />
