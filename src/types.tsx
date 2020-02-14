@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface BaseTransformResult {}
 
 export interface ElementTransformResult extends BaseTransformResult {
@@ -19,3 +21,17 @@ export interface ErrorTransformResult extends BaseTransformResult {
 export type TransformResult = ElementTransformResult | StringTransformResult | ErrorTransformResult;
 export type SourceConverter = (data: any) => any;
 export type DestinationConverter<T = TransformResult> = (data: any) => T;
+
+export interface Styleable {
+  style?: React.CSSProperties;
+}
+
+export enum MainLayout {
+  ThreeColumns = "threeColumns",
+  BottomCode = "bottomCode",
+}
+
+export const layoutNames: { [layout in MainLayout]: string } = {
+  [MainLayout.ThreeColumns]: "Three Columns",
+  [MainLayout.BottomCode]: "Code on Bottom",
+};
