@@ -1,6 +1,7 @@
 import React from "react";
 
 import { destinationConverters, sourceConverters } from "./converters";
+import { sourceSamples } from "./samples"
 import { doTransform } from "./core";
 import { Menu, MenuItemProps } from "semantic-ui-react";
 import { TransformResult } from "./types";
@@ -35,15 +36,22 @@ interface ConverterSelectProps extends Styleable {
   value: string;
   options: string[];
   onChange: (val: string) => void;
+  onChangeSample?: () => void;
 }
 
-const ConverterSelect: React.FC<ConverterSelectProps> = ({ value, options, onChange, style }) => {
+const ConverterSelect: React.FC<ConverterSelectProps> = ({ value, options, onChange, style, onChangeSample }) => {
   const handleClick = (e: React.MouseEvent, { name }: MenuItemProps) => name && onChange(name);
+  const handleSampleClick = () => { if (onChangeSample) {onChangeSample();} };
   return (
     <Menu fluid size="mini" style={style}>
       {options.map(item => (
         <Menu.Item name={item} active={value === item} onClick={handleClick} />
       ))}
+      {onChangeSample ? (
+        <Menu.Menu position='right'>
+          <Menu.Item name='Example' title='Use example data in the selected format' onClick={handleSampleClick} />
+        </Menu.Menu>
+      ) : null }
     </Menu>
   );
 };
@@ -119,9 +127,12 @@ const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
 };
 
 const App: React.FC = () => {
+  const [sourceType, setSourceType] = React.useState("yaml");
   const [source, setSource] = React.useState("");
-  const [sourceType, setSourceType] = React.useState("text");
-  const [destType, setDestType] = React.useState("text");
+  const setSample = () => {
+    setSource(sourceSamples[sourceType])
+  }
+  const [destType, setDestType] = React.useState("json");
   const [transform, setTransform] = React.useState("");
   const result: TransformResult = React.useMemo(() => doTransform(sourceType, source, transform, destType), [
     sourceType,
@@ -134,7 +145,7 @@ const App: React.FC = () => {
       <div id="settings">
         <div>
           Input Format
-          <ConverterSelect value={sourceType} options={Object.keys(sourceConverters)} onChange={setSourceType} />
+          <ConverterSelect value={sourceType} options={Object.keys(sourceConverters)} onChange={setSourceType} onChangeSample={setSample} />
         </div>
         <div>
           Output Format
