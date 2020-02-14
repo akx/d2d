@@ -135,6 +135,34 @@ const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
   );
 };
 
+type Setter<T> = (t: T) => void;
+
+interface ToolbarProps {
+  sourceType: string;
+  setSourceType: Setter<string>;
+  setSample: () => void;
+  destType: string;
+  setDestType: Setter<string>;
+}
+
+const Toolbar: React.FC<ToolbarProps> = ({sourceType, setSourceType, setSample, destType, setDestType}) => (
+  <>
+    <div>
+      Input Format
+      <ConverterSelect
+        value={sourceType}
+        options={Object.keys(sourceConverters)}
+        onChange={setSourceType}
+        onChangeSample={setSample}
+      />
+    </div>
+    <div>
+      Output Format
+      <ConverterSelect value={destType} options={Object.keys(destinationConverters)} onChange={setDestType} />
+    </div>
+  </>
+);
+
 const App: React.FC = () => {
   const [sourceType, setSourceType] = React.useState("yaml");
   const [source, setSource] = React.useState("");
@@ -178,19 +206,13 @@ const App: React.FC = () => {
   return (
     <>
       <div id="settings">
-        <div>
-          Input Format
-          <ConverterSelect
-            value={sourceType}
-            options={Object.keys(sourceConverters)}
-            onChange={setSourceType}
-            onChangeSample={setSample}
-          />
-        </div>
-        <div>
-          Output Format
-          <ConverterSelect value={destType} options={Object.keys(destinationConverters)} onChange={setDestType} />
-        </div>
+        <Toolbar
+          sourceType={sourceType}
+          setSourceType={setSourceType}
+          setSample={setSample}
+          destType={destType}
+          setDestType={setDestType}
+        />
       </div>
       <div id="main-panes">{mainContent}</div>
     </>
