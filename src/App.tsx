@@ -140,12 +140,12 @@ const App: React.FC = () => {
         </div>
       </div>
       <div id="main-panes">
-        <SplitPane split="vertical" defaultSize="35%">
-          <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
-          <SplitPane split="vertical" defaultSize="40%">
-            <TransformBox transform={transform} onChangeTransform={setTransform} />
+        <SplitPane split="horizontal" defaultSize="80%">
+          <SplitPane split="vertical" defaultSize="50%">
+            <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
             <DestBox destType={destType} result={result} />
           </SplitPane>
+          <TransformBox transform={transform} onChangeTransform={setTransform} />
         </SplitPane>
       </div>
     </>
