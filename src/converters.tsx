@@ -11,8 +11,8 @@ const tsv = dsvFormat("\t");
 
 export const sourceConverters: { [key: string]: SourceConverter } = {
   csv: csv.parse,
-  scsv: scsv.parse,
   json: JSON.parse,
+  scsv: scsv.parse,
   text: data => data,
   toml: toml.parse,
   tsv: tsv.parse,
@@ -32,4 +32,23 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   yaml: stringTransform(yaml.safeDump),
   table: tableConverter,
   xlsx: xlsxConverter,
+};
+
+export const prettyNames: { [key: string]: string } = {
+  "json-compact": "JSON (compact)",
+  csv: "CSV",
+  json: "JSON",
+  scsv: "SCSV",
+  table: "Table",
+  text: "Text",
+  toml: "TOML",
+  tsv: "TSV",
+  xlsx: "XLS/XLSX",
+  yaml: "YAML",
+};
+
+export const prettyDescriptions: { [key: string]: string } = {
+  csv: "Comma-separated values",
+  scsv: "Semicolon-separated values",
+  tsv: "Tab-separated values",
 };
