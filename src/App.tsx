@@ -9,8 +9,8 @@ import { DestBox } from "./components/DestBox";
 import { Toolbar } from "./components/Toolbar";
 import createPersistedState from "use-persisted-state";
 
-const useLayoutState = createPersistedState('d2d-layout');
-const useTransformState = createPersistedState('d2d-transform');
+const useLayoutState = createPersistedState("d2d-layout");
+const useTransformState = createPersistedState("d2d-transform");
 
 const App: React.FC = () => {
   const [sourceType, setSourceType] = React.useState("yaml");
