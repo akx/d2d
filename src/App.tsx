@@ -10,6 +10,7 @@ import { Toolbar } from "./components/Toolbar";
 import createPersistedState from "use-persisted-state";
 
 const useLayoutState = createPersistedState('d2d-layout');
+const useTransformState = createPersistedState('d2d-transform');
 
 const App: React.FC = () => {
   const [sourceType, setSourceType] = React.useState("yaml");
@@ -18,7 +19,7 @@ const App: React.FC = () => {
     setSource(sourceSamples[sourceType]);
   };
   const [destType, setDestType] = React.useState("json");
-  const [transform, setTransform] = React.useState("");
+  const [transform, setTransform] = useTransformState("");
   const [layout, setLayout] = useLayoutState(MainLayout.ThreeColumns);
   const result: TransformResult = React.useMemo(() => doTransform(sourceType, source, transform, destType), [
     sourceType,
