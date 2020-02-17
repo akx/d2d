@@ -56,6 +56,7 @@ const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
         }
         hoverable
         plain
+        basic
       >
         <Checkbox
           label="Wrap Lines"
