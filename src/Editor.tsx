@@ -2,6 +2,7 @@ import { EditorConfiguration } from "codemirror";
 import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import React from "react";
 import { Checkbox, Icon, Popup } from "semantic-ui-react";
+import { toast } from "react-semantic-toasts";
 
 interface EditorProps {
   value: string;
@@ -12,6 +13,11 @@ interface EditorProps {
 const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
   const [lineWrapping, setLineWrapping] = React.useState(false);
   const [plainEditor, setPlainEditor] = React.useState(false);
+  const handleCopy = () =>
+    navigator.clipboard.writeText(value).then(
+      () => toast({ type: "success", title: `Copied ${value.length} characters.` }),
+      () => toast({ type: "warning", title: "Copy failed." }),
+    );
   return (
     <>
       {plainEditor ? (
@@ -24,6 +30,18 @@ const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
           onBeforeChange={(editor, data, value) => onChange(value)}
         />
       )}
+      <Icon
+        circular
+        name="copy"
+        style={{
+          position: "absolute",
+          right: "35px",
+          bottom: "5px",
+        }}
+        link
+        title="Copy content"
+        onClick={handleCopy}
+      />
       <Popup
         trigger={
           <Icon

@@ -8,6 +8,8 @@ import { TransformBox } from "./components/TransformBox";
 import { DestBox } from "./components/DestBox";
 import { Toolbar } from "./components/Toolbar";
 import createPersistedState from "use-persisted-state";
+import { SemanticToastContainer } from "react-semantic-toasts";
+import "react-semantic-toasts/styles/react-semantic-alert.css";
 
 const useLayoutState = createPersistedState("d2d-layout");
 const useTransformState = createPersistedState("d2d-transform");
@@ -67,6 +69,7 @@ const App: React.FC = () => {
         />
       </div>
       <div id="main-panes">{mainContent}</div>
+      <SemanticToastContainer position="top-right" />
     </>
   );
 };
