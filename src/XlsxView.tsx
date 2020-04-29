@@ -14,7 +14,7 @@ async function generateAndDownloadXlsx(data: any, extension: string) {
 
 const ExportButton = ({ label, format, data }: { label: string; format: string; data: any }) => (
   <Button
-    onClick={event => {
+    onClick={(event) => {
       try {
         generateAndDownloadXlsx(data, format);
       } catch (error) {
@@ -36,7 +36,7 @@ const XlsxView = ({ data }: { data: any }) => {
   );
 };
 
-export const xlsxConverter: DestinationConverter = data => ({
+export const xlsxConverter: DestinationConverter = (data) => ({
   error: null,
   type: "element",
   element: <XlsxView data={data} />,

@@ -21,7 +21,7 @@ const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
   return (
     <>
       {plainEditor ? (
-        <textarea value={value} onChange={e => onChange(e.target.value)} placeholder={options.placeholder} />
+        <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={options.placeholder} />
       ) : (
         <ControlledCodeMirror
           className="code-editor"

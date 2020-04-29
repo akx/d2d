@@ -40,7 +40,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
     return (
       <LoadableTable
         data={dataArray}
-        columns={columnOrder.map(col => ({ accessor: col, Header: col, Cell: CellRenderer }))}
+        columns={columnOrder.map((col) => ({ accessor: col, Header: col, Cell: CellRenderer }))}
       />
     );
   } catch (error) {
@@ -48,7 +48,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
   }
 });
 
-export const tableConverter: DestinationConverter = data => ({
+export const tableConverter: DestinationConverter = (data) => ({
   error: null,
   type: "element",
   element: <ErrorWrapper render={() => <TableView data={data} />} />,

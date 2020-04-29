@@ -23,7 +23,7 @@ const ConverterSelect: React.FC<ConverterSelectProps> = ({ label, value, options
       closeOnChange={false}
     >
       <Dropdown.Menu style={{ minWidth: "25em" }}>
-        {options.map(item => (
+        {options.map((item) => (
           <Dropdown.Item
             key={item}
             name={item}
@@ -49,7 +49,7 @@ interface ToolbarProps {
   setLayout: (layout: MainLayout) => void;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = props => {
+export const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { sourceType, setSourceType, loadSample, destType, setDestType, layout, setLayout } = props;
   return (
     <Menu fluid secondary size="small">
