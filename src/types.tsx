@@ -29,9 +29,11 @@ export interface Styleable {
 export enum MainLayout {
   ThreeColumns = "threeColumns",
   BottomCode = "bottomCode",
+  NoCode = "noCode",
 }
 
 export const layoutNames: { [layout in MainLayout]: string } = {
   [MainLayout.ThreeColumns]: "Three Columns",
   [MainLayout.BottomCode]: "Code on Bottom",
+  [MainLayout.NoCode]: "No Code",
 };

@@ -54,6 +54,14 @@ const App: React.FC = () => {
         </SplitPane>
       );
       break;
+    case MainLayout.NoCode:
+      mainContent = (
+        <SplitPane split="vertical" defaultSize="50%">
+          <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
+          <DestBox destType={destType} result={result} />
+        </SplitPane>
+      );
+      break;
   }
   return (
     <>
