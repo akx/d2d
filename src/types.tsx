@@ -37,3 +37,4 @@ export const layoutNames: { [layout in MainLayout]: string } = {
   [MainLayout.BottomCode]: "Code on Bottom",
   [MainLayout.NoCode]: "No Code",
 };
+export type Setter<T> = (t: T) => void;

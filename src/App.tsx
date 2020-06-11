@@ -3,7 +3,7 @@ import { sourceSamples } from "./samples";
 import { doTransform } from "./core";
 import { MainLayout, TransformResult } from "./types";
 import SplitPane from "react-split-pane";
-import { SourceBox } from "./components/SourceBox";
+import { SourceBox, SourceBoxProps } from "./components/SourceBox";
 import { TransformBox } from "./components/TransformBox";
 import { DestBox } from "./components/DestBox";
 import { Toolbar } from "./components/Toolbar";
@@ -30,12 +30,19 @@ const App: React.FC = () => {
     destType,
   ]);
   let mainContent: React.ReactNode;
+  const sourceBoxProps: SourceBoxProps = {
+    source,
+    sourceType,
+    onChangeSource: setSource,
+    onChangeSourceType: setSourceType,
+    onLoadSample: loadSample,
+  };
   switch (layout) {
     case MainLayout.ThreeColumns:
     default:
       mainContent = (
         <SplitPane split="vertical" defaultSize="35%">
-          <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
+          <SourceBox {...sourceBoxProps} />
           <SplitPane split="vertical" defaultSize="40%">
             <TransformBox transform={transform} onChangeTransform={setTransform} />
             <DestBox destType={destType} result={result} />
@@ -47,7 +54,7 @@ const App: React.FC = () => {
       mainContent = (
         <SplitPane split="horizontal" defaultSize="80%">
           <SplitPane split="vertical" defaultSize="50%">
-            <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
+            <SourceBox {...sourceBoxProps} />
             <DestBox destType={destType} result={result} />
           </SplitPane>
           <TransformBox transform={transform} onChangeTransform={setTransform} />
@@ -57,7 +64,7 @@ const App: React.FC = () => {
     case MainLayout.NoCode:
       mainContent = (
         <SplitPane split="vertical" defaultSize="50%">
-          <SourceBox source={source} sourceType={sourceType} onChangeSource={setSource} />
+          <SourceBox {...sourceBoxProps} />
           <DestBox destType={destType} result={result} />
         </SplitPane>
       );
@@ -66,15 +73,7 @@ const App: React.FC = () => {
   return (
     <>
       <div id="settings">
-        <Toolbar
-          sourceType={sourceType}
-          setSourceType={setSourceType}
-          loadSample={loadSample}
-          destType={destType}
-          setDestType={setDestType}
-          layout={layout}
-          setLayout={setLayout}
-        />
+        <Toolbar destType={destType} setDestType={setDestType} layout={layout} setLayout={setLayout} />
       </div>
       <div id="main-panes">{mainContent}</div>
       <SemanticToastContainer position="top-right" />

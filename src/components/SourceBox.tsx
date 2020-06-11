@@ -1,17 +1,40 @@
 import React from "react";
 import Editor from "./Editor";
 import { dataTheme } from "../consts";
-import { Styleable } from "../types";
-import { prettyNames } from "../converters";
+import { Setter, Styleable } from "../types";
+import { prettyNames, sourceConverters } from "../converters";
+import { Menu } from "semantic-ui-react";
+import { ConverterSelect } from "./ConverterSelect";
 
-interface SourceProps extends Styleable {
+export interface SourceBoxProps extends Styleable {
   source: string;
   sourceType: string;
-  onChangeSource: (str: string) => void;
+  onChangeSource: Setter<string>;
+  onChangeSourceType: Setter<string>;
+  onLoadSample: () => void;
 }
 
-export const SourceBox: React.FC<SourceProps> = ({ sourceType, source, onChangeSource, style }) => (
+export const SourceBox: React.FC<SourceBoxProps> = ({
+  sourceType,
+  source,
+  onChangeSource,
+  onChangeSourceType,
+  onLoadSample,
+  style,
+}) => (
   <div className="codebox-wrapper" style={style}>
+    <Menu secondary size="small" style={{ margin: 0 }}>
+      <ConverterSelect
+        label="Source Format"
+        value={sourceType}
+        options={Object.keys(sourceConverters)}
+        onChange={onChangeSourceType}
+      />
+
+      <Menu.Item name="loadSample" onClick={onLoadSample}>
+        Load {prettyNames[sourceType] || sourceType} Sample
+      </Menu.Item>
+    </Menu>
     <Editor
       value={source}
       options={{
