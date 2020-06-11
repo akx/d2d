@@ -1,5 +1,5 @@
 import React from "react";
-import Editor from "../Editor";
+import Editor from "./Editor";
 import { dataTheme } from "../consts";
 import { Styleable } from "../types";
 import { prettyNames } from "../converters";

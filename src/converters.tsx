@@ -2,8 +2,8 @@ import { dsvFormat } from "d3-dsv";
 import toml from "toml";
 import yaml from "js-yaml";
 import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
-import { tableConverter } from "./TableView";
-import { xlsxConverter } from "./XlsxView";
+import { tableConverter } from "./components/TableView";
+import { xlsxConverter } from "./components/XlsxView";
 
 const csv = dsvFormat(",");
 const scsv = dsvFormat(";");

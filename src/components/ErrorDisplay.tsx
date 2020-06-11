@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorTransformResult } from "./types";
+import { ErrorTransformResult } from "../types";
 
 export const ErrorDisplay = ({ result: { error, phase } }: { result: ErrorTransformResult }) => (
   <div className="error-result">

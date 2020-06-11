@@ -1,4 +1,4 @@
-import { DestinationConverter } from "./types";
+import { DestinationConverter } from "../types";
 import React from "react";
 import { Button } from "semantic-ui-react";
 

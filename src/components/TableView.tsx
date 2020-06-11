@@ -1,8 +1,7 @@
-import { DestinationConverter } from "./types";
+import { DestinationConverter } from "../types";
 import ErrorWrapper from "./ErrorWrapper";
 import React from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
-import { getColumns } from "./table-utils";
 import Loadable from "react-loadable";
 import { CellInfo } from "react-table";
 
@@ -21,6 +20,22 @@ const CellRenderer = ({ value }: CellInfo) => {
   }
   return <>{value}</>;
 };
+
+function getColumns(dataArray: any[]): string[] {
+  const columnOrder: string[] = [];
+  const columnSet = new Set<string>();
+  dataArray.forEach(
+    (datum) =>
+      datum &&
+      Object.keys(datum as object).forEach((column) => {
+        if (!columnSet.has(column)) {
+          columnOrder.push(column);
+          columnSet.add(column);
+        }
+      }),
+  );
+  return columnOrder;
+}
 
 const TableView = React.memo(({ data }: { data: any }) => {
   try {
