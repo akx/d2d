@@ -14,6 +14,10 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
   json: JSON.parse,
   scsv: scsv.parse,
   text: (data) => data,
+  lines: (data) => data.split("\n").filter((s: string) => {
+    s = s.trimStart();
+    return s && !s.startsWith("#");
+  }),
   toml: toml.parse,
   tsv: tsv.parse,
   yaml: yaml.safeLoad,
@@ -41,6 +45,7 @@ export const prettyNames: { [key: string]: string } = {
   scsv: "SCSV",
   table: "Table",
   text: "Text",
+  lines: "Text lines",
   toml: "TOML",
   tsv: "TSV",
   xlsx: "XLS/XLSX",
@@ -51,4 +56,5 @@ export const prettyDescriptions: { [key: string]: string } = {
   csv: "Comma-separated values",
   scsv: "Semicolon-separated values",
   tsv: "Tab-separated values",
+  lines: "Sans #comments and blanks",
 };

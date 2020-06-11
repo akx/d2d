@@ -57,6 +57,7 @@ export const sourceSamples: any = {
   scsv,
   json,
   text: "Some arbitrary text",
+  lines: "Hello\nWorld\n# Octothorpe comments are ignored, as are blank lines:\n\n\n\nHernekeitto",
   tsv,
   yaml,
   toml,
