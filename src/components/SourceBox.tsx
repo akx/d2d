@@ -12,6 +12,7 @@ export interface SourceBoxProps extends Styleable {
   onChangeSource: Setter<string>;
   onChangeSourceType: Setter<string>;
   onLoadSample: () => void;
+  label?: string;
 }
 
 export const SourceBox: React.FC<SourceBoxProps> = ({
@@ -21,9 +22,11 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
   onChangeSourceType,
   onLoadSample,
   style,
+  label,
 }) => (
   <div className="codebox-wrapper" style={style}>
     <Menu secondary size="small" style={{ margin: 0 }}>
+      {label ? <Menu.Item style={{ fontWeight: "bold" }}>{label}</Menu.Item> : null}
       <ConverterSelect
         label="Source Format"
         value={sourceType}

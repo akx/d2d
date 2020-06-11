@@ -1,52 +1,54 @@
 import React from "react";
-import { sourceSamples } from "./samples";
 import { doTransform } from "./core";
 import { MainLayout, TransformResult } from "./types";
 import SplitPane from "react-split-pane";
-import { SourceBox, SourceBoxProps } from "./components/SourceBox";
 import { TransformBox } from "./components/TransformBox";
 import { DestBox } from "./components/DestBox";
 import { Toolbar } from "./components/Toolbar";
 import createPersistedState from "use-persisted-state";
 import { SemanticToastContainer } from "react-semantic-toasts";
 import "react-semantic-toasts/styles/react-semantic-alert.css";
+import { getSourceBoxFor, useSource } from "./sources";
 
 const useLayoutState = createPersistedState("d2d-layout");
 const useTransformState = createPersistedState("d2d-transform");
 
 const App: React.FC = () => {
   const [nSources, setNSources] = React.useState(1);
-  const [sourceType, setSourceType] = React.useState("yaml");
-  const [source, setSource] = React.useState("");
-  const loadSample = () => {
-    setSource(sourceSamples[sourceType]);
-  };
   const [destType, setDestType] = React.useState("json");
   const [transform, setTransform] = useTransformState("");
   const [layout, setLayout] = useLayoutState(MainLayout.ThreeColumns);
-  const result: TransformResult = React.useMemo(() => doTransform(sourceType, source, transform, destType), [
-    sourceType,
-    source,
+  const source1 = useSource();
+  const source2 = useSource();
+  const result: TransformResult = React.useMemo(() => doTransform([source1, source2], transform, destType), [
+    source1,
+    source2,
     transform,
     destType,
   ]);
   let mainContent: React.ReactNode;
-  const sourceBoxProps: SourceBoxProps = {
-    source,
-    sourceType,
-    onChangeSource: setSource,
-    onChangeSourceType: setSourceType,
-    onLoadSample: loadSample,
-  };
+  const source1Box = getSourceBoxFor(source1, nSources > 1 ? "Input 1" : undefined);
+  const source2Box = nSources > 1 ? getSourceBoxFor(source2, "Input 2") : null;
+  const sourceBoxes =
+    nSources === 1 ? (
+      source1Box
+    ) : (
+      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+        {source1Box}
+        {source2Box}
+      </div>
+    );
+  const transformBox = <TransformBox transform={transform} onChangeTransform={setTransform} nSources={nSources} />;
+  const destBox = <DestBox destType={destType} result={result} />;
   switch (layout) {
     case MainLayout.ThreeColumns:
     default:
       mainContent = (
         <SplitPane split="vertical" defaultSize="35%">
-          <SourceBox {...sourceBoxProps} />
+          {sourceBoxes}
           <SplitPane split="vertical" defaultSize="40%">
-            <TransformBox transform={transform} onChangeTransform={setTransform} />
-            <DestBox destType={destType} result={result} />
+            {transformBox}
+            {destBox}
           </SplitPane>
         </SplitPane>
       );
@@ -55,18 +57,18 @@ const App: React.FC = () => {
       mainContent = (
         <SplitPane split="horizontal" defaultSize="80%">
           <SplitPane split="vertical" defaultSize="50%">
-            <SourceBox {...sourceBoxProps} />
-            <DestBox destType={destType} result={result} />
+            {sourceBoxes}
+            {destBox}
           </SplitPane>
-          <TransformBox transform={transform} onChangeTransform={setTransform} />
+          {transformBox}
         </SplitPane>
       );
       break;
     case MainLayout.NoCode:
       mainContent = (
         <SplitPane split="vertical" defaultSize="50%">
-          <SourceBox {...sourceBoxProps} />
-          <DestBox destType={destType} result={result} />
+          {sourceBoxes}
+          {destBox}
         </SplitPane>
       );
       break;
