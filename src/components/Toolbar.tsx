@@ -8,14 +8,24 @@ interface ToolbarProps {
   destType: string;
   setDestType: Setter<string>;
   layout: MainLayout;
-  setLayout: (layout: MainLayout) => void;
+  setLayout: Setter<MainLayout>;
+  nSources: number;
+  setNSources: Setter<number>;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = (props) => {
-  const { destType, setDestType, layout, setLayout } = props;
+const nSourcesOptions = [1, 2];
+
+export const Toolbar: React.FC<ToolbarProps> = ({
+  destType,
+  layout,
+  setDestType,
+  setLayout,
+  nSources,
+  setNSources,
+}) => {
   return (
     <Menu fluid>
-      <Dropdown item text="Layout...">
+      <Dropdown item text={`Layout: ${layoutNames[layout]}` || layout}>
         <Dropdown.Menu>
           {Object.entries(layoutNames).map(([id, name]) => (
             <Dropdown.Item
@@ -25,6 +35,13 @@ export const Toolbar: React.FC<ToolbarProps> = (props) => {
               text={name}
               onClick={(event, { name }) => setLayout(name as MainLayout)}
             />
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+      <Dropdown item text={`Sources: ${nSources}`}>
+        <Dropdown.Menu>
+          {nSourcesOptions.map((n) => (
+            <Dropdown.Item key={n} name={n} active={nSources === n} text={n} onClick={() => setNSources(n)} />
           ))}
         </Dropdown.Menu>
       </Dropdown>

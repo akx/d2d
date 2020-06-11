@@ -15,6 +15,7 @@ const useLayoutState = createPersistedState("d2d-layout");
 const useTransformState = createPersistedState("d2d-transform");
 
 const App: React.FC = () => {
+  const [nSources, setNSources] = React.useState(1);
   const [sourceType, setSourceType] = React.useState("yaml");
   const [source, setSource] = React.useState("");
   const loadSample = () => {
@@ -73,7 +74,14 @@ const App: React.FC = () => {
   return (
     <>
       <div id="settings">
-        <Toolbar destType={destType} setDestType={setDestType} layout={layout} setLayout={setLayout} />
+        <Toolbar
+          nSources={nSources}
+          setNSources={setNSources}
+          destType={destType}
+          setDestType={setDestType}
+          layout={layout}
+          setLayout={setLayout}
+        />
       </div>
       <div id="main-panes">{mainContent}</div>
       <SemanticToastContainer position="top-right" />
