@@ -3,7 +3,7 @@ import { destinationConverters, sourceConverters } from "./converters";
 import lodash from "lodash";
 import * as ramda from "ramda";
 import { TransformResult } from "./types";
-import { SourceInfo } from "./sources";
+import { StaticSourceInfo } from "./sources";
 
 function innerTransform(inputs: string[], transform: string): any {
   let data = inputs[0];
@@ -17,7 +17,7 @@ function innerTransform(inputs: string[], transform: string): any {
   return data;
 }
 
-export function doTransform(sources: SourceInfo[], transform: string, destType: string): TransformResult {
+export function doTransform(sources: StaticSourceInfo[], transform: string, destType: string): TransformResult {
   const inputs = [];
   for (let index = 0; index < sources.length; index++) {
     const source = sources[index];

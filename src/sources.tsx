@@ -1,14 +1,18 @@
-import { Setter } from "./types";
+import { Setter, TransformResult } from "./types";
 import React from "react";
 import { sourceSamples } from "./samples";
 import { SourceBox, SourceBoxProps } from "./components/SourceBox";
+import { doTransform } from "./core";
 
-export interface SourceInfo {
+export interface StaticSourceInfo {
+  source: string;
+  type: string;
+}
+
+export interface SourceInfo extends StaticSourceInfo {
   loadSample: () => void;
   setSource: Setter<string>;
   setType: Setter<string>;
-  source: string;
-  type: string;
 }
 
 export function useSource(): SourceInfo {
@@ -26,7 +30,7 @@ export function useSource(): SourceInfo {
   };
 }
 
-export function getSourceBoxFor(sourceInfo: SourceInfo, label?: string) {
+export function getSourceBoxFor(sourceInfo: SourceInfo, label?: string, key?: string) {
   const sourceBoxProps: SourceBoxProps = {
     source: sourceInfo.source,
     sourceType: sourceInfo.type,
@@ -35,5 +39,20 @@ export function getSourceBoxFor(sourceInfo: SourceInfo, label?: string) {
     onLoadSample: sourceInfo.loadSample,
     label,
   };
-  return <SourceBox {...sourceBoxProps} />;
+  return <SourceBox {...sourceBoxProps} key={key} />;
+}
+
+export function useTransformResult(sources: SourceInfo[], transform: string, destType: string) {
+  const nSources = sources.length;
+  const resultMemoDeps = [nSources, transform, destType];
+  const sourceInfos: StaticSourceInfo[] = [];
+  for (let i = 0; i < nSources; i++) {
+    const { source, type } = sources[i];
+    resultMemoDeps.push(source);
+    resultMemoDeps.push(type);
+    sourceInfos.push({ source, type });
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const result: TransformResult = React.useMemo(() => doTransform(sourceInfos, transform, destType), resultMemoDeps);
+  return result;
 }

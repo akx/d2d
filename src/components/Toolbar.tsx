@@ -13,7 +13,7 @@ interface ToolbarProps {
   setNSources: Setter<number>;
 }
 
-const nSourcesOptions = [1, 2];
+const nSourcesOptions = [1, 2, 3];
 
 export const Toolbar: React.FC<ToolbarProps> = ({
   destType,
