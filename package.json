@@ -10,7 +10,7 @@
     "codemirror": "^5.54.0",
     "d3-dsv": "^1.2.0",
     "js-yaml": "^3.14.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-codemirror2": "^7.2.1",
