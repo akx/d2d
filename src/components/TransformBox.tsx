@@ -2,9 +2,10 @@ import React from "react";
 import Editor from "./Editor";
 import { codeTheme } from "../consts";
 import { Setter, Styleable } from "../types";
-import { Menu } from "semantic-ui-react";
+import { Button, Menu, Message } from "semantic-ui-react";
 import { SelectDropdown } from "./SelectDropdown";
 import { prettyTransformNames, transformers } from "../transformers";
+import { ErrorBoundary } from "react-error-boundary";
 
 export interface TransformSourceProps {
   transform: string;
@@ -64,6 +65,31 @@ export const TransformBox: React.FC<TransformProps> = ({
       onChange={onChangeTransform}
     />
   );
+  const ErrorFallback = React.useCallback(
+    ({ error, componentStack, resetErrorBoundary }) => {
+      return (
+        <Message negative>
+          <p>
+            The editor failed to render. The error message we got was "<b>{error.message}</b>".
+          </p>
+          <p>
+            You can either change the transform type to something that's compatible with your data, or click below to
+            reset your transform code.
+          </p>
+          <Button
+            onClick={() => {
+              onChangeTransform("");
+              resetErrorBoundary();
+            }}
+          >
+            Reset transform
+          </Button>
+        </Message>
+      );
+    },
+    [onChangeTransform],
+  );
+
   return (
     <div className="codebox-wrapper" style={style}>
       <Menu secondary size="small" style={{ margin: 0 }}>
@@ -75,7 +101,7 @@ export const TransformBox: React.FC<TransformProps> = ({
           nameMap={prettyTransformNames}
         />
       </Menu>
-      {editor}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>{editor}</ErrorBoundary>
     </div>
   );
 };
