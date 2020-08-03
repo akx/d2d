@@ -8,7 +8,7 @@ interface SelectDropdownProps extends Styleable {
   options: string[];
   onChange: (val: string) => void;
   nameMap: Record<string, string>;
-  descriptionMap: Record<string, string>;
+  descriptionMap?: Record<string, string>;
 }
 
 export const SelectDropdown: React.FC<SelectDropdownProps> = ({
@@ -39,7 +39,7 @@ export const SelectDropdown: React.FC<SelectDropdownProps> = ({
             active={value === item}
             onClick={onClick}
             text={nameMap[item] || item}
-            description={descriptionMap[item]}
+            description={descriptionMap ? descriptionMap[item] : undefined}
           />
         ))}
       </Dropdown.Menu>

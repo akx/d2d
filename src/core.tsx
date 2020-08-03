@@ -1,24 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { destinationConverters, sourceConverters } from "./converters";
-import lodash from "lodash";
-import * as ramda from "ramda";
+import { transformers } from "./transformers";
 import { TransformResult } from "./types";
 import { StaticSourceInfo } from "./sources";
 
-function innerTransform(inputs: string[], transform: string): any {
-  let data = inputs[0];
-  let data1 = inputs[0];
-  let data2 = inputs[1];
-  if (transform.trim().length) {
-    const _ = lodash; // eslint-disable-line
-    const R = ramda; // eslint-disable-line
-    eval(transform); // eslint-disable-line
-  }
-  return data;
-}
-
-export function doTransform(sources: StaticSourceInfo[], transform: string, destType: string): TransformResult {
-  const inputs = [];
+export function doTransform(
+  sources: StaticSourceInfo[],
+  transform: string,
+  transformType: string,
+  destType: string,
+): TransformResult {
+  const inputs: any[] = [];
   for (let index = 0; index < sources.length; index++) {
     const source = sources[index];
     try {
@@ -29,7 +21,7 @@ export function doTransform(sources: StaticSourceInfo[], transform: string, dest
   }
   let data;
   try {
-    data = innerTransform(inputs, transform);
+    data = transformers[transformType].transform(inputs, transform);
   } catch (error) {
     return { error, type: "error", phase: "transform" };
   }
