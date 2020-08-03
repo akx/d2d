@@ -9,15 +9,19 @@ const csv = dsvFormat(",");
 const scsv = dsvFormat(";");
 const tsv = dsvFormat("\t");
 
+function parseLines(data: string) {
+  return data.split("\n").filter((s: string) => {
+    s = s.trimStart();
+    return s && !s.startsWith("#");
+  });
+}
+
 export const sourceConverters: { [key: string]: SourceConverter } = {
   csv: csv.parse,
   json: JSON.parse,
   scsv: scsv.parse,
   text: (data) => data,
-  lines: (data) => data.split("\n").filter((s: string) => {
-    s = s.trimStart();
-    return s && !s.startsWith("#");
-  }),
+  lines: parseLines,
   toml: toml.parse,
   tsv: tsv.parse,
   yaml: yaml.safeLoad,
