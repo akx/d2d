@@ -3,6 +3,7 @@ import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import React from "react";
 import { Checkbox, Icon, Popup } from "semantic-ui-react";
 import { toast } from "react-semantic-toasts";
+import { longValueThreshold } from "../consts";
 
 interface EditorProps {
   value: string;
@@ -12,7 +13,7 @@ interface EditorProps {
 
 const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
   const [lineWrapping, setLineWrapping] = React.useState(false);
-  const [plainEditor, setPlainEditor] = React.useState(false);
+  const [plainEditor, setPlainEditor] = React.useState(!!(value && value.length > longValueThreshold));
   const handleCopy = () =>
     navigator.clipboard.writeText(value).then(
       () => toast({ type: "success", title: `Copied ${value.length} characters.` }),
