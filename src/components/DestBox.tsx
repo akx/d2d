@@ -3,7 +3,7 @@ import Editor from "./Editor";
 import { dataTheme } from "../consts";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { Styleable, TransformResult } from "../types";
-import { prettyNames } from "../converters";
+import { converterPrettyNames } from "../converters";
 
 interface DestProps extends Styleable {
   destType: string;
@@ -25,7 +25,7 @@ export const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
             theme: dataTheme,
             lineNumbers: true,
             readOnly: true,
-            placeholder: `Output will appear here in ${prettyNames[destType] || destType}.`,
+            placeholder: `Output will appear here in ${converterPrettyNames[destType] || destType}.`,
           }}
           onChange={() => void 8}
         />

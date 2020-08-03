@@ -1,14 +1,12 @@
 import React from "react";
 import { getSourceBoxFor, SourceInfo } from "../sources";
-import { TransformBox } from "./TransformBox";
+import { TransformBox, TransformSourceProps, TransformTypeProps } from "./TransformBox";
 import { DestBox } from "./DestBox";
-import { MainLayout, Setter, TransformResult } from "../types";
+import { MainLayout, TransformResult } from "../types";
 import SplitPane from "react-split-pane";
 
-interface MainContentPaneProps {
+interface MainContentPaneProps extends TransformTypeProps, TransformSourceProps {
   sources: SourceInfo[];
-  transform: string;
-  setTransform: Setter<string>;
   destType: string;
   result: TransformResult;
   layout: MainLayout;
@@ -17,7 +15,9 @@ interface MainContentPaneProps {
 export const MainContentPane: React.FC<MainContentPaneProps> = ({
   sources,
   transform,
-  setTransform,
+  onChangeTransform,
+  onChangeTransformType,
+  transformType,
   destType,
   result,
   layout,
@@ -28,7 +28,15 @@ export const MainContentPane: React.FC<MainContentPaneProps> = ({
       {sources.map((s, i) => getSourceBoxFor(s, nSources > 1 ? `Input ${i + 1}` : undefined, `input-${i}`))}
     </div>
   );
-  const transformBox = <TransformBox transform={transform} onChangeTransform={setTransform} nSources={nSources} />;
+  const transformBox = (
+    <TransformBox
+      transform={transform}
+      transformType={transformType}
+      onChangeTransform={onChangeTransform}
+      onChangeTransformType={onChangeTransformType}
+      nSources={nSources}
+    />
+  );
   const destBox = <DestBox destType={destType} result={result} />;
   switch (layout) {
     case MainLayout.ThreeColumns:

@@ -9,17 +9,19 @@ import { MainContentPane } from "./components/MainContentPane";
 
 const useLayoutState = createPersistedState("d2d-layout");
 const useTransformState = createPersistedState("d2d-transform");
+const useTransformTypeState = createPersistedState("d2d-transform-type");
 
 const App: React.FC = () => {
   const [nSources, setNSources] = React.useState(1);
   const [destType, setDestType] = React.useState("json");
   const [transform, setTransform] = useTransformState("");
+  const [transformType, setTransformType] = useTransformTypeState("javascript");
   const [layout, setLayout] = useLayoutState(MainLayout.ThreeColumns);
   const source1 = useSource();
   const source2 = useSource();
   const source3 = useSource();
   const sources = [source1, source2, source3].slice(0, nSources);
-  const result = useTransformResult(sources, transform, destType);
+  const result = useTransformResult(sources, transform, transformType, destType);
   return (
     <>
       <div id="settings">
@@ -36,7 +38,9 @@ const App: React.FC = () => {
         <MainContentPane
           sources={sources}
           transform={transform}
-          setTransform={setTransform}
+          transformType={transformType}
+          onChangeTransform={setTransform}
+          onChangeTransformType={setTransformType}
           destType={destType}
           result={result}
           layout={layout}

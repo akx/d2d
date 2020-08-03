@@ -21,6 +21,12 @@ export interface ErrorTransformResult extends BaseTransformResult {
 
 export type TransformResult = ElementTransformResult | StringTransformResult | ErrorTransformResult;
 export type SourceConverter = (data: any) => any;
+
+export interface Transformer {
+  transform: (inputs: any[], transform: string) => any;
+  getEditor?: (transform: string, onChangeTransform: Setter<string>, nSources: number) => React.ReactChild;
+}
+
 export type DestinationConverter<T = TransformResult> = (data: any) => T;
 
 export interface Styleable {

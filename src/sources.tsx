@@ -42,9 +42,9 @@ export function getSourceBoxFor(sourceInfo: SourceInfo, label?: string, key?: st
   return <SourceBox {...sourceBoxProps} key={key} />;
 }
 
-export function useTransformResult(sources: SourceInfo[], transform: string, destType: string) {
+export function useTransformResult(sources: SourceInfo[], transform: string, transformType: string, destType: string) {
   const nSources = sources.length;
-  const resultMemoDeps = [nSources, transform, destType];
+  const resultMemoDeps = [nSources, transform, transformType, destType];
   const sourceInfos: StaticSourceInfo[] = [];
   for (let i = 0; i < nSources; i++) {
     const { source, type } = sources[i];
@@ -52,7 +52,10 @@ export function useTransformResult(sources: SourceInfo[], transform: string, des
     resultMemoDeps.push(type);
     sourceInfos.push({ source, type });
   }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const result: TransformResult = React.useMemo(() => doTransform(sourceInfos, transform, destType), resultMemoDeps);
+  const result: TransformResult = React.useMemo(
+    () => doTransform(sourceInfos, transform, transformType, destType),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    resultMemoDeps,
+  );
   return result;
 }

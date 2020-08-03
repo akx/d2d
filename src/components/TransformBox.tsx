@@ -1,12 +1,24 @@
 import React from "react";
 import Editor from "./Editor";
 import { codeTheme } from "../consts";
-import { Styleable } from "../types";
+import { Setter, Styleable } from "../types";
+import { Button, Menu, Message } from "semantic-ui-react";
+import { SelectDropdown } from "./SelectDropdown";
+import { prettyTransformNames, transformers } from "../transformers";
+import { ErrorBoundary } from "react-error-boundary";
 
-interface TransformProps extends Styleable {
+export interface TransformSourceProps {
   transform: string;
+  onChangeTransform: Setter<string>;
+}
+
+export interface TransformTypeProps {
+  transformType: string;
+  onChangeTransformType: Setter<string>;
+}
+
+interface TransformProps extends TransformTypeProps, TransformSourceProps, Styleable {
   nSources: number;
-  onChangeTransform: (s: string) => void;
 }
 
 let TOOLS_INFO = `
@@ -30,8 +42,18 @@ const MULTI_SOURCE_PLACEHOLDER = `
 ${TOOLS_INFO}
 `.trim();
 
-export const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTransform, nSources, style }) => (
-  <div className="codebox-wrapper" style={style}>
+export const TransformBox: React.FC<TransformProps> = ({
+  transform,
+  transformType,
+  onChangeTransform,
+  onChangeTransformType,
+  nSources,
+  style,
+}) => {
+  const transformer = transformers[transformType];
+  const editor = transformer.getEditor ? (
+    transformer.getEditor(transform, onChangeTransform, nSources)
+  ) : (
     <Editor
       value={transform}
       options={{
@@ -42,5 +64,44 @@ export const TransformBox: React.FC<TransformProps> = ({ transform, onChangeTran
       }}
       onChange={onChangeTransform}
     />
-  </div>
-);
+  );
+  const ErrorFallback = React.useCallback(
+    ({ error, componentStack, resetErrorBoundary }) => {
+      return (
+        <Message negative>
+          <p>
+            The editor failed to render. The error message we got was "<b>{error.message}</b>".
+          </p>
+          <p>
+            You can either change the transform type to something that's compatible with your data, or click below to
+            reset your transform code.
+          </p>
+          <Button
+            onClick={() => {
+              onChangeTransform("");
+              resetErrorBoundary();
+            }}
+          >
+            Reset transform
+          </Button>
+        </Message>
+      );
+    },
+    [onChangeTransform],
+  );
+
+  return (
+    <div className="codebox-wrapper" style={style}>
+      <Menu secondary size="small" style={{ margin: 0 }}>
+        <SelectDropdown
+          label="Language"
+          value={transformType}
+          options={Object.keys(transformers)}
+          onChange={onChangeTransformType}
+          nameMap={prettyTransformNames}
+        />
+      </Menu>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>{editor}</ErrorBoundary>
+    </div>
+  );
+};

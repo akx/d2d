@@ -2,9 +2,9 @@ import React from "react";
 import Editor from "./Editor";
 import { dataTheme, longValueThreshold } from "../consts";
 import { Setter, Styleable } from "../types";
-import { prettyNames, sourceConverters } from "../converters";
+import { converterDescriptions, converterPrettyNames, sourceConverters } from "../converters";
 import { Button, Menu, Message } from "semantic-ui-react";
-import { ConverterSelect } from "./ConverterSelect";
+import { SelectDropdown } from "./SelectDropdown";
 
 export interface SourceBoxProps extends Styleable {
   source: string;
@@ -57,7 +57,7 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
           mode: sourceType,
           theme: dataTheme,
           lineNumbers: true,
-          placeholder: `Paste, drop or type in ${prettyNames[sourceType] || sourceType} data here.`,
+          placeholder: `Paste, drop or type in ${converterPrettyNames[sourceType] || sourceType} data here.`,
         }}
         onChange={onChangeSource}
       />
@@ -66,14 +66,16 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
     <div className="codebox-wrapper" style={style}>
       <Menu secondary size="small" style={{ margin: 0 }}>
         {label ? <Menu.Item style={{ fontWeight: "bold" }}>{label}</Menu.Item> : null}
-        <ConverterSelect
+        <SelectDropdown
           label="Source Format"
           value={sourceType}
           options={Object.keys(sourceConverters)}
           onChange={onChangeSourceType}
+          nameMap={converterPrettyNames}
+          descriptionMap={converterDescriptions}
         />
         <Menu.Item name="loadSample" onClick={onLoadSample}>
-          Load {prettyNames[sourceType] || sourceType} Sample
+          Load {converterPrettyNames[sourceType] || sourceType} Sample
         </Menu.Item>
       </Menu>
       {editor}

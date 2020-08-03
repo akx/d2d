@@ -1,16 +1,25 @@
 import { Styleable } from "../types";
 import React from "react";
 import { Dropdown, DropdownItemProps } from "semantic-ui-react";
-import { prettyDescriptions, prettyNames } from "../converters";
 
-interface ConverterSelectProps extends Styleable {
+interface SelectDropdownProps extends Styleable {
   label: string;
   value: string;
   options: string[];
   onChange: (val: string) => void;
+  nameMap: Record<string, string>;
+  descriptionMap?: Record<string, string>;
 }
 
-export const ConverterSelect: React.FC<ConverterSelectProps> = ({ label, value, options, onChange, style }) => {
+export const SelectDropdown: React.FC<SelectDropdownProps> = ({
+  label,
+  value,
+  options,
+  onChange,
+  style,
+  nameMap,
+  descriptionMap,
+}) => {
   const onClick = (event: any, props: DropdownItemProps) => {
     onChange(props.name);
     event.preventDefault();
@@ -18,7 +27,7 @@ export const ConverterSelect: React.FC<ConverterSelectProps> = ({ label, value, 
   return (
     <Dropdown
       item
-      text={`${label}: ${prettyNames[value] || value}`}
+      text={`${label}: ${nameMap[value] || value}`}
       /* TODO: these have no effect :-/ */
       closeOnChange={false}
     >
@@ -29,8 +38,8 @@ export const ConverterSelect: React.FC<ConverterSelectProps> = ({ label, value, 
             name={item}
             active={value === item}
             onClick={onClick}
-            text={prettyNames[item] || item}
-            description={prettyDescriptions[item]}
+            text={nameMap[item] || item}
+            description={descriptionMap ? descriptionMap[item] : undefined}
           />
         ))}
       </Dropdown.Menu>
