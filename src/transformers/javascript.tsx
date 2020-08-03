@@ -11,7 +11,7 @@ export const javascriptTransform: Transformer = {
     if (transform.trim().length) {
       const _ = lodash;
       const R = ramda;
-      eval(transform);  // eslint-disable-line no-eval
+      eval(transform); // eslint-disable-line no-eval
     }
     return data;
   },

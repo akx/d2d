@@ -6,14 +6,17 @@ import { Menu } from "semantic-ui-react";
 import { SelectDropdown } from "./SelectDropdown";
 import { prettyTransformNames, transformers } from "../transformers";
 
-export interface TransformDataProps {
+export interface TransformSourceProps {
   transform: string;
-  transformType: string;
   onChangeTransform: Setter<string>;
+}
+
+export interface TransformTypeProps {
+  transformType: string;
   onChangeTransformType: Setter<string>;
 }
 
-interface TransformProps extends TransformDataProps, Styleable {
+interface TransformProps extends TransformTypeProps, TransformSourceProps, Styleable {
   nSources: number;
 }
 

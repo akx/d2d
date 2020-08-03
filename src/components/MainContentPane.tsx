@@ -1,11 +1,11 @@
 import React from "react";
 import { getSourceBoxFor, SourceInfo } from "../sources";
-import { TransformBox, TransformDataProps } from "./TransformBox";
+import { TransformBox, TransformSourceProps, TransformTypeProps } from "./TransformBox";
 import { DestBox } from "./DestBox";
 import { MainLayout, TransformResult } from "../types";
 import SplitPane from "react-split-pane";
 
-interface MainContentPaneProps extends TransformDataProps {
+interface MainContentPaneProps extends TransformTypeProps, TransformSourceProps {
   sources: SourceInfo[];
   destType: string;
   result: TransformResult;
