@@ -57,12 +57,11 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
           mode: sourceType,
           theme: dataTheme,
           lineNumbers: true,
-          placeholder: `Paste or type in ${prettyNames[sourceType] || sourceType} data here.`,
+          placeholder: `Paste, drop or type in ${prettyNames[sourceType] || sourceType} data here.`,
         }}
         onChange={onChangeSource}
       />
     );
-
   return (
     <div className="codebox-wrapper" style={style}>
       <Menu secondary size="small" style={{ margin: 0 }}>
