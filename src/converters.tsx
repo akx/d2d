@@ -42,7 +42,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   xlsx: xlsxConverter,
 };
 
-export const prettyNames: { [key: string]: string } = {
+export const converterPrettyNames: { [key: string]: string } = {
   "json-compact": "JSON (compact)",
   csv: "CSV",
   json: "JSON",
@@ -56,7 +56,7 @@ export const prettyNames: { [key: string]: string } = {
   yaml: "YAML",
 };
 
-export const prettyDescriptions: { [key: string]: string } = {
+export const converterDescriptions: { [key: string]: string } = {
   csv: "Comma-separated values",
   scsv: "Semicolon-separated values",
   tsv: "Tab-separated values",

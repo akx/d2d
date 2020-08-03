@@ -1,8 +1,8 @@
 import React from "react";
 import { Dropdown, Menu } from "semantic-ui-react";
-import { destinationConverters } from "../converters";
+import { destinationConverters, converterDescriptions, converterPrettyNames } from "../converters";
 import { layoutNames, MainLayout, Setter } from "../types";
-import { ConverterSelect } from "./ConverterSelect";
+import { SelectDropdown } from "./SelectDropdown";
 
 interface ToolbarProps {
   destType: string;
@@ -45,11 +45,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({
           ))}
         </Dropdown.Menu>
       </Dropdown>
-      <ConverterSelect
+      <SelectDropdown
         label="Output Format"
         value={destType}
         options={Object.keys(destinationConverters)}
         onChange={setDestType}
+        descriptionMap={converterDescriptions}
+        nameMap={converterPrettyNames}
       />
     </Menu>
   );
