@@ -19,6 +19,7 @@ function parseLines(data: string) {
 export const sourceConverters: { [key: string]: SourceConverter } = {
   csv: csv.parse,
   json: JSON.parse,
+  jsonl: (data) => parseLines(data).map(r => JSON.parse(r)),
   scsv: scsv.parse,
   text: (data) => data,
   lines: parseLines,
@@ -46,6 +47,7 @@ export const converterPrettyNames: { [key: string]: string } = {
   "json-compact": "JSON (compact)",
   csv: "CSV",
   json: "JSON",
+  jsonl: "JSON Lines",
   scsv: "SCSV",
   table: "Table",
   text: "Text",
