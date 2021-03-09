@@ -1,2 +1,0 @@
-body{display:flex;flex-direction:column}#root{flex:1 1;display:grid;grid-template-columns:35% auto 35%;grid-template-rows:35px auto;grid-template-areas:"src-header xform-header dest-header" "src-content xform-content dest-content"}.code-editor,.codebox-wrapper{display:flex;flex-direction:column}.code-editor,.code-editor .CodeMirror{flex:1 1}
-/*# sourceMappingURL=main.6797a129.chunk.css.map */
