@@ -19,13 +19,13 @@ function parseLines(data: string) {
 export const sourceConverters: { [key: string]: SourceConverter } = {
   csv: csv.parse,
   json: JSON.parse,
-  jsonl: (data) => parseLines(data).map(r => JSON.parse(r)),
+  jsonl: (data) => parseLines(data).map((r) => JSON.parse(r)),
   scsv: scsv.parse,
   text: (data) => data,
   lines: parseLines,
   toml: toml.parse,
   tsv: tsv.parse,
-  yaml: yaml.safeLoad,
+  yaml: yaml.load,
 };
 
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
@@ -38,7 +38,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   json: stringTransform((data) => JSON.stringify(data, null, 2)),
   text: stringTransform((data) => "" + data),
   tsv: stringTransform(tsv.format),
-  yaml: stringTransform(yaml.safeDump),
+  yaml: stringTransform(yaml.dump),
   table: tableConverter,
   xlsx: xlsxConverter,
 };
