@@ -2,9 +2,10 @@
 // Each line should be `a,b,c value`
 // where `value` gets divided equally for a, b and c
 var sums = {};
-data.map((l) => {
+data.forEach((l) => {
   let [people, value] = l.split(/\s+/g);
   value = parseFloat(value);
+  if (!value || Number.isNaN(value)) return;
   people = people.split(",");
   people.forEach((p) =>
     (sums[p] = sums[p] || []).push(value / people.length),
