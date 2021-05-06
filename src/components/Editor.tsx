@@ -19,10 +19,11 @@ const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
       () => toast({ type: "success", title: `Copied ${value.length} characters.` }),
       () => toast({ type: "warning", title: "Copy failed." }),
     );
+  const placeholder = typeof options.placeholder === "string" ? options.placeholder : undefined;
   return (
     <>
       {plainEditor ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={options.placeholder} />
+        <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
       ) : (
         <ControlledCodeMirror
           className="code-editor"
