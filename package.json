@@ -24,6 +24,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "toml": "^3.0.0",
+    "toml-patch": "^0.2.3",
     "typescript": "4.2.4",
     "use-persisted-state": "^0.3.3",
     "xlsx": "^0.16.9"

@@ -1,5 +1,6 @@
 import { dsvFormat } from "d3-dsv";
 import toml from "toml";
+import * as tomlPatch from "toml-patch";
 import yaml from "js-yaml";
 import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
 import { tableConverter } from "./components/TableView";
@@ -37,6 +38,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   scsv: stringTransform(scsv.format),
   json: stringTransform((data) => JSON.stringify(data, null, 2)),
   text: stringTransform((data) => "" + data),
+  toml: stringTransform(tomlPatch.stringify),
   tsv: stringTransform(tsv.format),
   yaml: stringTransform(yaml.dump),
   table: tableConverter,
