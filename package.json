@@ -27,7 +27,7 @@
     "toml-patch": "^0.2.3",
     "typescript": "4.2.4",
     "use-persisted-state": "^0.3.3",
-    "xlsx": "^0.16.9"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@types/codemirror": "^5.60.0",
