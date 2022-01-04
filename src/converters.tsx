@@ -2,9 +2,11 @@ import { dsvFormat } from "d3-dsv";
 import toml from "toml";
 import * as tomlPatch from "toml-patch";
 import yaml from "js-yaml";
+
 import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
 import { tableConverter } from "./components/TableView";
 import { xlsxConverter } from "./components/XlsxView";
+import { renderMarkdownTable } from "./markdownTable";
 
 const csv = dsvFormat(",");
 const scsv = dsvFormat(";");
@@ -41,6 +43,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   toml: stringTransform(tomlPatch.stringify),
   tsv: stringTransform(tsv.format),
   yaml: stringTransform(yaml.dump),
+  markdownTable: stringTransform(renderMarkdownTable),
   table: tableConverter,
   xlsx: xlsxConverter,
 };
@@ -50,10 +53,11 @@ export const converterPrettyNames: { [key: string]: string } = {
   csv: "CSV",
   json: "JSON",
   jsonl: "JSON Lines",
+  lines: "Text lines",
+  markdownTable: "Markdown (GFM) table",
   scsv: "SCSV",
   table: "Table",
   text: "Text",
-  lines: "Text lines",
   toml: "TOML",
   tsv: "TSV",
   xlsx: "XLS/XLSX",
