@@ -42,7 +42,7 @@ export const MainContentPane: React.FC<MainContentPaneProps> = ({
     case MainLayout.ThreeColumns:
     default:
       return (
-        <SplitPane split="vertical" defaultSize="35%">
+        <SplitPane split="vertical" defaultSize="35%" pane1Style={{ overflow: "hidden" }}>
           {sourceBoxes}
           <SplitPane split="vertical" defaultSize="40%">
             {transformBox}
@@ -62,7 +62,7 @@ export const MainContentPane: React.FC<MainContentPaneProps> = ({
       );
     case MainLayout.NoCode:
       return (
-        <SplitPane split="vertical" defaultSize="50%">
+        <SplitPane split="vertical" defaultSize="50%" pane1Style={{ overflow: "hidden" }}>
           {sourceBoxes}
           {destBox}
         </SplitPane>

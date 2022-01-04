@@ -31,10 +31,6 @@ body {
   overflow-x: auto;
 }
 
-.codebox-wrapper {
-  position: relative;
-}
-
 .code-editor,
 .code-editor .CodeMirror,
 textarea {
