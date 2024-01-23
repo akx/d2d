@@ -1,7 +1,7 @@
 import { dsvFormat } from "d3-dsv";
 import toml from "toml";
 import * as tomlPatch from "toml-patch";
-import yaml from "js-yaml";
+import YAML from "yaml";
 
 import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
 import { tableConverter } from "./components/TableView";
@@ -28,7 +28,8 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
   lines: parseLines,
   toml: toml.parse,
   tsv: tsv.parse,
-  yaml: yaml.load,
+  yaml: YAML.parse,
+  yamlMulti: (s) => YAML.parseAllDocuments(s).map((d) => d.toJSON()),
 };
 
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
@@ -42,13 +43,16 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   text: stringTransform((data) => "" + data),
   toml: stringTransform(tomlPatch.stringify),
   tsv: stringTransform(tsv.format),
-  yaml: stringTransform(yaml.dump),
+  yaml: stringTransform(YAML.stringify),
+  yamlMulti: stringTransform(data => [...data].map((d) => YAML.stringify(d)).join("---\n")),
   markdownTable: stringTransform(renderMarkdownTable),
   table: tableConverter,
   xlsx: xlsxConverter,
 };
 
-export const converterPrettyNames: { [key: string]: string } = {
+type ConverterName = keyof typeof sourceConverters | keyof typeof destinationConverters;
+
+export const converterPrettyNames: { [key: ConverterName]: string } = {
   "json-compact": "JSON (compact)",
   csv: "CSV",
   json: "JSON",
@@ -62,9 +66,10 @@ export const converterPrettyNames: { [key: string]: string } = {
   tsv: "TSV",
   xlsx: "XLS/XLSX",
   yaml: "YAML",
+  yamlMulti: "YAML (multiple documents)",
 };
 
-export const converterDescriptions: { [key: string]: string } = {
+export const converterDescriptions: { [key: ConverterName]: string } = {
   csv: "Comma-separated values",
   scsv: "Semicolon-separated values",
   tsv: "Tab-separated values",
