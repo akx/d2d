@@ -1,73 +1,61 @@
 {
   "name": "d2d",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
-  "installConfig": {
-    "pnp": false
-  },
   "homepage": "https://akx.github.io/d2d",
   "dependencies": {
+    "@plq/use-persisted-state": "^1.2.0",
+    "allotment": "^1.20.0",
     "codemirror": "^5.65.0",
     "d3-dsv": "^3.0.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "markdown-table": "^3.0.2",
-    "ramda": "^0.27.1",
-    "react": "^17.0.2",
+    "ramda": "^0.29.1",
+    "react": "^18.2.0",
     "react-codemirror2": "^7.2.1",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
     "react-loadable": "^5.5.0",
-    "react-scripts": "4.0.3",
     "react-semantic-toasts": "^0.6.5",
-    "react-split-pane": "^0.1.92",
     "react-table": "^6.10.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.4",
     "toml": "^3.0.0",
     "toml-patch": "^0.2.3",
-    "typescript": "4.5.4",
-    "use-persisted-state": "^0.3.3",
     "xlsx": "^0.17.4"
   },
   "devDependencies": {
     "@types/codemirror": "^5.60.5",
     "@types/d3-dsv": "^3.0.0",
-    "@types/jest": "27.4.0",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.178",
-    "@types/node": "17.0.7",
-    "@types/prettier": "^2.4.2",
-    "@types/ramda": "^0.27.62",
-    "@types/react": "17.0.38",
-    "@types/react-dom": "17.0.11",
+    "@types/node": "20.11.5",
+    "@types/prettier": "^3.0.0",
+    "@types/ramda": "^0.29.10",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
     "@types/react-loadable": "^5.5.6",
     "@types/react-table": "^6.8.9",
-    "@types/use-persisted-state": "^0.3.0",
-    "prettier": "^2.5.1"
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --ext=.tsx --ext=.ts src",
-    "prettify": "prettier --write 'src/*.ts*' 'src/**/*.ts*'"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
+    "prettify": "prettier --write ."
   },
   "prettier": {
     "printWidth": 120,

@@ -1,8 +1,7 @@
-import { Styleable } from "../types";
 import React from "react";
 import { Dropdown, DropdownItemProps } from "semantic-ui-react";
 
-interface SelectDropdownProps extends Styleable {
+interface SelectDropdownProps {
   label: string;
   value: string;
   options: string[];
@@ -16,7 +15,6 @@ export const SelectDropdown: React.FC<SelectDropdownProps> = ({
   value,
   options,
   onChange,
-  style,
   nameMap,
   descriptionMap,
 }) => {

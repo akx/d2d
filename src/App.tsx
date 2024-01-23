@@ -1,22 +1,22 @@
 import React from "react";
 import { MainLayout } from "./types";
 import { Toolbar } from "./components/Toolbar";
-import createPersistedState from "use-persisted-state";
+import createPersistedState from "@plq/use-persisted-state";
 import { SemanticToastContainer } from "react-semantic-toasts";
 import "react-semantic-toasts/styles/react-semantic-alert.css";
 import { useSource, useTransformResult } from "./sources";
 import { MainContentPane } from "./components/MainContentPane";
+import storage from '@plq/use-persisted-state/lib/storages/local-storage';
 
-const useLayoutState = createPersistedState("d2d-layout");
-const useTransformState = createPersistedState("d2d-transform");
-const useTransformTypeState = createPersistedState("d2d-transform-type");
+
+const [usePersistedState] = createPersistedState('d2d', storage);
 
 const App: React.FC = () => {
   const [nSources, setNSources] = React.useState(1);
   const [destType, setDestType] = React.useState("json");
-  const [transform, setTransform] = useTransformState("");
-  const [transformType, setTransformType] = useTransformTypeState("javascript");
-  const [layout, setLayout] = useLayoutState(MainLayout.ThreeColumns);
+  const [transform, setTransform] = usePersistedState("transform", "");
+  const [transformType, setTransformType] = usePersistedState("transform-type", "javascript");
+  const [layout, setLayout] = usePersistedState("layout", MainLayout.ThreeColumns);
   const source1 = useSource();
   const source2 = useSource();
   const source3 = useSource();
