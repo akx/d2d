@@ -37,6 +37,7 @@ function getColumns(dataArray: any[]): string[] {
   return columnOrder;
 }
 
+// eslint-disable-next-line react/display-name
 const TableView = React.memo(({ data }: { data: any }) => {
   try {
     const dataArray = Array.from(data);

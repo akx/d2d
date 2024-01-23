@@ -11,8 +11,8 @@ export function prepareMarkdownTable(data: any): { data: Array<Array<any>>; alig
   const keySet: Set<string> = new Set();
   const possiblyNumberOnly: Set<string> = new Set();
   const notNumberOnly: Set<string> = new Set();
-  for (let row of data) {
-    for (let key of Object.keys(row)) {
+  for (const row of data) {
+    for (const key of Object.keys(row)) {
       if (!keySet.has(key)) {
         keySet.add(key);
         keys.push(key);
@@ -23,7 +23,7 @@ export function prepareMarkdownTable(data: any): { data: Array<Array<any>>; alig
     }
   }
   const transformedRows = [[...keys]];
-  for (let row of data) {
+  for (const row of data) {
     transformedRows.push(keys.map((key) => row[key] ?? ""));
   }
   return {

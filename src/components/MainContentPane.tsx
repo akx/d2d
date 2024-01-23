@@ -3,7 +3,9 @@ import { getSourceBoxFor, SourceInfo } from "../sources";
 import { TransformBox, TransformSourceProps, TransformTypeProps } from "./TransformBox";
 import { DestBox } from "./DestBox";
 import { MainLayout, TransformResult } from "../types";
-import SplitPane from "react-split-pane";
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
+
 
 interface MainContentPaneProps extends TransformTypeProps, TransformSourceProps {
   sources: SourceInfo[];
@@ -24,48 +26,52 @@ export const MainContentPane: React.FC<MainContentPaneProps> = ({
 }) => {
   const nSources = sources.length;
   const sourceBoxes = (
-    <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+    <div style={{ display: "flex", flex: 1, flexDirection: "column", width: "100%", height: "100%" }}>
       {sources.map((s, i) => getSourceBoxFor(s, nSources > 1 ? `Input ${i + 1}` : undefined, `input-${i}`))}
     </div>
   );
   const transformBox = (
-    <TransformBox
-      transform={transform}
-      transformType={transformType}
-      onChangeTransform={onChangeTransform}
-      onChangeTransformType={onChangeTransformType}
-      nSources={nSources}
-    />
+    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+      <TransformBox
+        transform={transform}
+        transformType={transformType}
+        onChangeTransform={onChangeTransform}
+        onChangeTransformType={onChangeTransformType}
+        nSources={nSources}
+      />
+    </div>
   );
-  const destBox = <DestBox destType={destType} result={result} />;
+  const destBox =
+    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+      <DestBox destType={destType} result={result} />
+    </div>;
+
   switch (layout) {
     case MainLayout.ThreeColumns:
     default:
       return (
-        <SplitPane split="vertical" defaultSize="35%" pane1Style={{ overflow: "hidden" }}>
+        <Allotment key={MainLayout.ThreeColumns}>
           {sourceBoxes}
-          <SplitPane split="vertical" defaultSize="40%">
-            {transformBox}
-            {destBox}
-          </SplitPane>
-        </SplitPane>
+          {transformBox}
+          {destBox}
+        </Allotment>
       );
     case MainLayout.BottomCode:
       return (
-        <SplitPane split="horizontal" defaultSize="80%">
-          <SplitPane split="vertical" defaultSize="50%">
+        <Allotment vertical key={MainLayout.BottomCode}>
+          <Allotment>
             {sourceBoxes}
             {destBox}
-          </SplitPane>
+          </Allotment>
           {transformBox}
-        </SplitPane>
+        </Allotment>
       );
     case MainLayout.NoCode:
       return (
-        <SplitPane split="vertical" defaultSize="50%" pane1Style={{ overflow: "hidden" }}>
+        <Allotment key={MainLayout.NoCode}>
           {sourceBoxes}
           {destBox}
-        </SplitPane>
+        </Allotment>
       );
   }
 };

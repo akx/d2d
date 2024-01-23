@@ -5,7 +5,7 @@ import { Setter, Styleable } from "../types";
 import { Button, Menu, Message } from "semantic-ui-react";
 import { SelectDropdown } from "./SelectDropdown";
 import { prettyTransformNames, transformers } from "../transformers";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 
 export interface TransformSourceProps {
   transform: string;
@@ -21,7 +21,7 @@ interface TransformProps extends TransformTypeProps, TransformSourceProps, Style
   nSources: number;
 }
 
-let TOOLS_INFO = `
+const TOOLS_INFO = `
 // * Lodash is available as \`_\`
 // ** e.g. \`_.reverse(data)\`
 // * Ramda is available as \`R\`
@@ -66,7 +66,7 @@ export const TransformBox: React.FC<TransformProps> = ({
     />
   );
   const ErrorFallback = React.useCallback(
-    ({ error, componentStack, resetErrorBoundary }) => {
+    ({ error, resetErrorBoundary }: FallbackProps) => {
       return (
         <Message negative>
           <p>

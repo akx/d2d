@@ -6,7 +6,6 @@ const defaultRenderError: ErrorRenderer = (error, errorInfo, reset) => (
   <div>
     Oops! An error occurred: ${error.toString()}
     <br />
-    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
     <a href="#" onClick={reset}>
       Try again
     </a>
