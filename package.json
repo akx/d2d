@@ -9,7 +9,6 @@
     "allotment": "^1.20.0",
     "codemirror": "^5.65.0",
     "d3-dsv": "^3.0.1",
-    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "markdown-table": "^3.0.2",
     "ramda": "^0.29.1",
@@ -24,7 +23,8 @@
     "semantic-ui-react": "^2.0.4",
     "toml": "^3.0.0",
     "toml-patch": "^0.2.3",
-    "xlsx": "^0.17.4"
+    "xlsx": "^0.17.4",
+    "yaml": "^2.3.4"
   },
   "devDependencies": {
     "@types/codemirror": "^5.60.5",
