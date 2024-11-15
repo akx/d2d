@@ -42,7 +42,14 @@ textarea {
   color: #500;
 }
 
+.error-message {
+  font-weight: bold;
+  padding: 1em;
+  white-space: pre-line;
+}
+
 .error-stack {
+  padding: 1em;
   white-space: pre-line;
 }
 
