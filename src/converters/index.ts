@@ -2,6 +2,7 @@ import { dsvFormat } from "d3-dsv";
 import toml from "toml";
 import * as tomlPatch from "toml-patch";
 import YAML from "yaml";
+import json5 from "json5";
 
 import { DestinationConverter, SourceConverter, StringTransformResult } from "../types";
 import { renderMarkdownTable } from "../markdownTable";
@@ -24,6 +25,8 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
   csv: csv.parse,
   json: JSON.parse,
   jsonl: (data) => parseLines(data).map((r) => JSON.parse(r)),
+  json5: json5.parse,
+  jsonl5: (data) => parseLines(data).map((r) => json5.parse(r)),
   scsv: scsv.parse,
   text: (data) => data,
   lines: parseLines,
@@ -71,6 +74,8 @@ export const converterPrettyNames: Record<ConverterName, string> = {
   csv: "CSV",
   json: "JSON",
   jsonl: "JSON Lines",
+  json5: "JSON5",
+  jsonl5: "JSON5 Lines",
   lines: "Text lines",
   markdownTable: "Markdown (GFM) table",
   scsv: "SCSV",
@@ -86,7 +91,10 @@ export const converterPrettyNames: Record<ConverterName, string> = {
 
 export const converterDescriptions: Record<ConverterName, string> = {
   csv: "Comma-separated values",
+  json5: "Looser than JSON",
+  jsonl5: "Looser than JSON Lines",
+  jsonl: "Also known as NDJSON",
+  lines: "Sans #comments and blanks",
   scsv: "Semicolon-separated values",
   tsv: "Tab-separated values",
-  lines: "Sans #comments and blanks",
 };

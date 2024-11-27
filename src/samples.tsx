@@ -52,6 +52,7 @@ Two,Four,Five
 Three,Six,Seven`;
 
 const pythonLiteral = `["a", {"b": (1, 2)}, {3, 4, 5}]`;
+const json5 = `{koo:'poo'/*bla*/,}`;
 
 export const sourceSamples: any = {
   "json-compact": "json-compact",
@@ -64,4 +65,5 @@ export const sourceSamples: any = {
   yaml,
   toml,
   pythonLiteral,
+  json5,
 };
