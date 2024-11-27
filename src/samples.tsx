@@ -51,6 +51,8 @@ One,Two,Three
 Two,Four,Five
 Three,Six,Seven`;
 
+const pythonLiteral = `["a", {"b": (1, 2)}, {3, 4, 5}]`;
+
 export const sourceSamples: any = {
   "json-compact": "json-compact",
   csv,
@@ -61,4 +63,5 @@ export const sourceSamples: any = {
   tsv,
   yaml,
   toml,
+  pythonLiteral,
 };
