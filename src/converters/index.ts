@@ -37,11 +37,23 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
   ({ value: fn(data), type: "string" }) as StringTransformResult;
 
+function jsonReplacer(_key: string, value: any) {
+  // Serialize sets as arrays
+  if (value instanceof Set) {
+    return Array.from(value);
+  }
+  // Serialize maps as objects
+  if (value instanceof Map) {
+    return Object.fromEntries(value);
+  }
+  return value;
+}
+
 export const destinationConverters: { [key: string]: DestinationConverter } = {
-  "json-compact": stringTransform(JSON.stringify),
+  "json-compact": stringTransform((data) => JSON.stringify(data, jsonReplacer)),
   csv: stringTransform(csv.format),
   scsv: stringTransform(scsv.format),
-  json: stringTransform((data) => JSON.stringify(data, null, 2)),
+  json: stringTransform((data) => JSON.stringify(data, jsonReplacer, 2)),
   text: stringTransform((data) => "" + data),
   toml: stringTransform(tomlPatch.stringify),
   tsv: stringTransform(tsv.format),
