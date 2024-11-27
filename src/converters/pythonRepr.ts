@@ -295,7 +295,114 @@ class PythonReprParser {
   }
 }
 
+class PythonReprDumper {
+  private seen: Set<any>;
+
+  constructor() {
+    this.seen = new Set();
+  }
+
+  dump(obj: any): string {
+    // Reset seen set for each top-level dump
+    this.seen.clear();
+    return this.dumpValue(obj);
+  }
+
+  private dumpValue(obj: any): string {
+    // Check for circular references
+    if (this.seen.has(obj)) {
+      throw new Error(`Circular reference detected: ${obj}`);
+    }
+
+    // Handle null and undefined
+    if (obj === null || obj === undefined) {
+      return "None";
+    }
+
+    // Primitive types
+    switch (typeof obj) {
+      case "string":
+        return this.dumpString(obj);
+      case "number":
+        return this.dumpNumber(obj);
+      case "boolean":
+        return obj ? "True" : "False";
+    }
+
+    // Mark this object as seen to detect circular references
+    this.seen.add(obj);
+
+    // Complex types
+    if (Array.isArray(obj)) {
+      return this.dumpList(obj);
+    }
+
+    if (obj instanceof Set) {
+      return this.dumpSet(obj);
+    }
+
+    if (obj instanceof Map) {
+      return this.dumpMap(obj);
+    }
+
+    if (typeof obj === "object") {
+      return this.dumpDict(obj);
+    }
+
+    throw new Error(`Cannot represent object of type: ${typeof obj}`);
+  }
+
+  private dumpString(str: string): string {
+    // Escape special characters and use single quotes (Python repr style)
+    const escaped = str
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r")
+      .replace(/\t/g, "\\t");
+    return `'${escaped}'`;
+  }
+
+  private dumpNumber(num: number): string {
+    // Special handling for NaN, Infinity, -Infinity
+    if (Number.isNaN(num)) {
+      return 'float("nan")';
+    }
+    if (!Number.isFinite(num)) {
+      return num > 0 ? 'float("inf")' : 'float("-inf")';
+    }
+    return num.toString();
+  }
+
+  private dumpList(arr: any[]): string {
+    const items = arr.map((item) => this.dumpValue(item));
+    return `[${items.join(", ")}]`;
+  }
+
+  private dumpSet(set: Set<any>): string {
+    const items = Array.from(set).map((item) => this.dumpValue(item));
+    return `{${items.join(", ")}}`;
+  }
+
+  private dumpMap(map: Map<any, any>): string {
+    const items = Array.from(map.entries()).map(([key, value]) => `${this.dumpValue(key)}: ${this.dumpValue(value)}`);
+    return `{${items.join(", ")}}`;
+  }
+
+  private dumpDict(obj: Record<string, any>): string {
+    // Exclude functions and symbols
+    const items = Object.entries(obj)
+      .filter(([_, value]) => typeof value !== "function" && typeof value !== "symbol")
+      .map(([key, value]) => `${this.dumpString(key)}: ${this.dumpValue(value)}`);
+
+    return `{${items.join(", ")}}`;
+  }
+}
+
 export function pythonReprParse(input: string): PythonLiteral {
-  const parser = new PythonReprParser(input);
-  return parser.parse();
+  return new PythonReprParser(input).parse();
+}
+
+export function pythonReprStringify(obj: any): string {
+  return new PythonReprDumper().dump(obj);
 }

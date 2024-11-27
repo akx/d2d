@@ -6,7 +6,7 @@ import json5 from "json5";
 
 import { DestinationConverter, SourceConverter, StringTransformResult } from "../types";
 import { renderMarkdownTable } from "../markdownTable";
-import { pythonReprParse } from "./pythonRepr";
+import { pythonReprParse, pythonReprStringify } from "./pythonRepr";
 import { tableConverter } from "./table";
 import { xlsxConverter } from "./xlsx";
 
@@ -65,6 +65,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   markdownTable: stringTransform(renderMarkdownTable),
   table: tableConverter,
   xlsx: xlsxConverter,
+  pythonLiteral: stringTransform(pythonReprStringify),
 };
 
 type ConverterName = keyof typeof sourceConverters | keyof typeof destinationConverters;
