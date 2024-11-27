@@ -3,11 +3,11 @@ import toml from "toml";
 import * as tomlPatch from "toml-patch";
 import YAML from "yaml";
 
-import { DestinationConverter, SourceConverter, StringTransformResult } from "./types";
-import { tableConverter } from "./components/TableView";
-import { xlsxConverter } from "./components/XlsxView";
-import { renderMarkdownTable } from "./markdownTable";
+import { DestinationConverter, SourceConverter, StringTransformResult } from "../types";
+import { renderMarkdownTable } from "../markdownTable";
 import { pythonReprParse } from "./pythonRepr";
+import { tableConverter } from "./table";
+import { xlsxConverter } from "./xlsx";
 
 const csv = dsvFormat(",");
 const scsv = dsvFormat(";");
@@ -35,7 +35,7 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
 };
 
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
-  ({ value: fn(data), type: "string" } as StringTransformResult);
+  ({ value: fn(data), type: "string" }) as StringTransformResult;
 
 export const destinationConverters: { [key: string]: DestinationConverter } = {
   "json-compact": stringTransform(JSON.stringify),
@@ -46,7 +46,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   toml: stringTransform(tomlPatch.stringify),
   tsv: stringTransform(tsv.format),
   yaml: stringTransform(YAML.stringify),
-  yamlMulti: stringTransform(data => [...data].map((d) => YAML.stringify(d)).join("---\n")),
+  yamlMulti: stringTransform((data) => [...data].map((d) => YAML.stringify(d)).join("---\n")),
   markdownTable: stringTransform(renderMarkdownTable),
   table: tableConverter,
   xlsx: xlsxConverter,
@@ -54,7 +54,7 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
 
 type ConverterName = keyof typeof sourceConverters | keyof typeof destinationConverters;
 
-export const converterPrettyNames: { [key: ConverterName]: string } = {
+export const converterPrettyNames: Record<ConverterName, string> = {
   "json-compact": "JSON (compact)",
   csv: "CSV",
   json: "JSON",
@@ -72,7 +72,7 @@ export const converterPrettyNames: { [key: ConverterName]: string } = {
   pythonLiteral: "Python literal",
 };
 
-export const converterDescriptions: { [key: ConverterName]: string } = {
+export const converterDescriptions: Record<ConverterName, string> = {
   csv: "Comma-separated values",
   scsv: "Semicolon-separated values",
   tsv: "Tab-separated values",
