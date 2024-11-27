@@ -31,7 +31,7 @@ export function TemEditor({ transform, onChangeTransform }: TransformSourceProps
 
   const handleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => {
     const [field, indexStr] = event.target.name.split("_");
-    const index = parseInt(indexStr, 10);
+    const index = parseInt(indexStr ?? "", 10);
     if (Number.isNaN(index)) return;
     switch (field) {
       case "match":

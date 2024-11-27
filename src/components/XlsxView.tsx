@@ -13,9 +13,9 @@ async function generateAndDownloadXlsx(data: any, extension: string) {
 
 const ExportButton = ({ label, format, data }: { label: string; format: string; data: any }) => (
   <Button
-    onClick={() => {
+    onClick={async () => {
       try {
-        generateAndDownloadXlsx(data, format);
+        await generateAndDownloadXlsx(data, format);
       } catch (error) {
         alert(error);
       }

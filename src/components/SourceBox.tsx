@@ -2,7 +2,13 @@ import React from "react";
 import Editor from "./Editor";
 import { dataTheme, longValueThreshold } from "../consts";
 import { Setter, Styleable } from "../types";
-import { converterDescriptions, converterPrettyNames, sourceConverters } from "../converters";
+import {
+  converterDescriptions,
+  ConverterName,
+  converterPrettyNames,
+  SourceConverterName,
+  sourceConverters,
+} from "../converters";
 import { Button, Menu, Message } from "semantic-ui-react";
 import { SelectDropdown } from "./SelectDropdown";
 
@@ -57,7 +63,7 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
           mode: sourceType,
           theme: dataTheme,
           lineNumbers: true,
-          placeholder: `Paste, drop or type in ${converterPrettyNames[sourceType] || sourceType} data here.`,
+          placeholder: `Paste, drop or type in ${converterPrettyNames[sourceType as SourceConverterName] || sourceType} data here.`,
         }}
         onChange={onChangeSource}
       />
@@ -75,7 +81,7 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
           descriptionMap={converterDescriptions}
         />
         <Menu.Item name="loadSample" onClick={onLoadSample}>
-          Load {converterPrettyNames[sourceType] || sourceType} Sample
+          Load {converterPrettyNames[sourceType as ConverterName] || sourceType} Sample
         </Menu.Item>
       </Menu>
       {editor}

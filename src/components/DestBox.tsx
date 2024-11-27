@@ -3,7 +3,7 @@ import Editor from "./Editor";
 import { dataTheme } from "../consts";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { Styleable, TransformResult } from "../types";
-import { converterPrettyNames } from "../converters";
+import { ConverterName, converterPrettyNames } from "../converters";
 
 interface DestProps extends Styleable {
   destType: string;
@@ -11,7 +11,7 @@ interface DestProps extends Styleable {
 }
 
 export const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
-  let comp: React.ReactChild | null = null;
+  let comp: React.ReactElement | string | number | null = null;
   switch (result.type) {
     case "element":
       comp = result.element;
@@ -25,7 +25,7 @@ export const DestBox: React.FC<DestProps> = ({ destType, result, style }) => {
             theme: dataTheme,
             lineNumbers: true,
             readOnly: true,
-            placeholder: `Output will appear here in ${converterPrettyNames[destType] || destType}.`,
+            placeholder: `Output will appear here in ${converterPrettyNames[destType as ConverterName] || destType}.`,
           }}
           onChange={() => void 8}
         />

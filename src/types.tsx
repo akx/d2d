@@ -5,7 +5,7 @@ export interface BaseTransformResult {}
 
 export interface ElementTransformResult extends BaseTransformResult {
   type: "element";
-  element: React.ReactChild;
+  element: React.ReactElement | number | string;
 }
 
 export interface StringTransformResult extends BaseTransformResult {
@@ -25,7 +25,7 @@ export type SourceConverter = (data: any) => any;
 
 export interface Transformer {
   transform: (inputs: any[], transform: string) => any;
-  getEditor?: (transform: string, onChangeTransform: Setter<string>, nSources: number) => React.ReactChild;
+  getEditor?: (transform: string, onChangeTransform: Setter<string>, nSources: number) => React.ReactElement;
 }
 
 export type DestinationConverter<T = TransformResult> = (data: any) => T;

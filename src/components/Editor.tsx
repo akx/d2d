@@ -13,7 +13,7 @@ interface EditorProps {
 
 const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
   const [lineWrapping, setLineWrapping] = React.useState(false);
-  const [plainEditor, setPlainEditor] = React.useState(!!(value && value.length > longValueThreshold));
+  const [plainEditor, setPlainEditor] = React.useState(value && value.length > longValueThreshold);
   const handleCopy = () =>
     navigator.clipboard.writeText(value).then(
       () => toast({ type: "success", title: `Copied ${value.length} characters.` }),
@@ -29,7 +29,7 @@ const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
           className="code-editor"
           value={value}
           options={{ ...options, lineWrapping }}
-          onBeforeChange={(editor, data, value) => onChange(value)}
+          onBeforeChange={(_editor, _data, value) => onChange(value)}
         />
       )}
       <Icon
@@ -63,13 +63,13 @@ const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
         <Checkbox
           label="Wrap Lines"
           checked={lineWrapping}
-          onChange={(event, data) => setLineWrapping(!!data.checked)}
+          onChange={(_event, data) => setLineWrapping(!!data.checked)}
         />
         <br />
         <Checkbox
           label="Plain Editor"
-          checked={plainEditor}
-          onChange={(event, data) => setPlainEditor(!!data.checked)}
+          checked={!!plainEditor}
+          onChange={(_event, data) => setPlainEditor(!!data.checked)}
         />
       </Popup>
     </>
