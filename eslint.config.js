@@ -33,6 +33,18 @@ export default [
       "@typescript-eslint/no-explicit-any": "off",
       "react/no-unescaped-entities": "off",
       "react/prop-types": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "after-used",
+          argsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
     },
   },
   eslintConfigPrettier,
