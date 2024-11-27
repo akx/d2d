@@ -6,10 +6,9 @@ import { SemanticToastContainer } from "react-semantic-toasts";
 import "react-semantic-toasts/styles/react-semantic-alert.css";
 import { useSource, useTransformResult } from "./sources";
 import { MainContentPane } from "./components/MainContentPane";
-import storage from '@plq/use-persisted-state/lib/storages/local-storage';
+import storage from "@plq/use-persisted-state/lib/storages/local-storage";
 
-
-const [usePersistedState] = createPersistedState('d2d', storage);
+const [usePersistedState] = createPersistedState("d2d", storage);
 
 const App: React.FC = () => {
   const [nSources, setNSources] = React.useState(1);

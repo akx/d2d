@@ -6,7 +6,6 @@ import { MainLayout, TransformResult } from "../types";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 
-
 interface MainContentPaneProps extends TransformTypeProps, TransformSourceProps {
   sources: SourceInfo[];
   destType: string;
@@ -41,10 +40,11 @@ export const MainContentPane: React.FC<MainContentPaneProps> = ({
       />
     </div>
   );
-  const destBox =
+  const destBox = (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
       <DestBox destType={destType} result={result} />
-    </div>;
+    </div>
+  );
 
   switch (layout) {
     case MainLayout.ThreeColumns:

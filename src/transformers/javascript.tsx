@@ -14,7 +14,7 @@ export const javascriptTransform: Transformer = {
     if (transform.trim().length) {
       const _ = lodash;
       const R = ramda;
-      eval(transform);  
+      eval(transform);
     }
     return data;
   },
