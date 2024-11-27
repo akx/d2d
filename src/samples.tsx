@@ -1,3 +1,5 @@
+import { SourceConverterName } from "./converters";
+
 const yaml = `
 - A: One
   B: Two
@@ -54,16 +56,18 @@ Three,Six,Seven`;
 const pythonLiteral = `["a", {"b": (1, 2)}, {3, 4, 5}]`;
 const json5 = `{koo:'poo'/*bla*/,}`;
 
-export const sourceSamples: any = {
-  "json-compact": "json-compact",
+export const sourceSamples: Record<SourceConverterName, string> = {
   csv,
-  scsv,
   json,
-  text: "Some arbitrary text",
+  json5,
+  jsonl5: `${json5}\n${json5}`,
+  jsonl: `${json}\n${json}`,
   lines: "Hello\nWorld\n# Octothorpe comments are ignored, as are blank lines:\n\n\n\nHernekeitto",
+  pythonLiteral,
+  scsv,
+  text: "Some arbitrary text",
+  toml,
   tsv,
   yaml,
-  toml,
-  pythonLiteral,
-  json5,
+  yamlMulti: `${yaml}\n---\n${yaml}`,
 };

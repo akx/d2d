@@ -21,7 +21,7 @@ function parseLines(data: string) {
   });
 }
 
-export const sourceConverters: { [key: string]: SourceConverter } = {
+export const sourceConverters = {
   csv: csv.parse,
   json: JSON.parse,
   jsonl: (data) => parseLines(data).map((r) => JSON.parse(r)),
@@ -35,7 +35,7 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
   yaml: YAML.parse,
   yamlMulti: (s) => YAML.parseAllDocuments(s).map((d) => d.toJSON()),
   pythonLiteral: pythonReprParse,
-};
+} as const satisfies Record<string, SourceConverter>;
 
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
   ({ value: fn(data), type: "string" }) as StringTransformResult;
@@ -52,7 +52,7 @@ function jsonReplacer(_key: string, value: any) {
   return value;
 }
 
-export const destinationConverters: { [key: string]: DestinationConverter } = {
+export const destinationConverters = {
   "json-compact": stringTransform((data) => JSON.stringify(data, jsonReplacer)),
   csv: stringTransform(csv.format),
   scsv: stringTransform(scsv.format),
@@ -66,9 +66,11 @@ export const destinationConverters: { [key: string]: DestinationConverter } = {
   table: tableConverter,
   xlsx: xlsxConverter,
   pythonLiteral: stringTransform(pythonReprStringify),
-};
+} as const satisfies Record<string, DestinationConverter>;
 
-type ConverterName = keyof typeof sourceConverters | keyof typeof destinationConverters;
+export type SourceConverterName = keyof typeof sourceConverters;
+export type DestConverterName = keyof typeof destinationConverters;
+export type ConverterName = SourceConverterName | DestConverterName;
 
 export const converterPrettyNames: Record<ConverterName, string> = {
   "json-compact": "JSON (compact)",
@@ -90,7 +92,7 @@ export const converterPrettyNames: Record<ConverterName, string> = {
   pythonLiteral: "Python literal",
 };
 
-export const converterDescriptions: Record<ConverterName, string> = {
+export const converterDescriptions: Partial<Record<ConverterName, string>> = {
   csv: "Comma-separated values",
   json5: "Looser than JSON",
   jsonl5: "Looser than JSON Lines",
