@@ -1,4 +1,3 @@
- 
 import { destinationConverters, sourceConverters } from "./converters";
 import { transformers } from "./transformers";
 import { TransformResult } from "./types";
