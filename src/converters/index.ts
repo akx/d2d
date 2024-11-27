@@ -6,7 +6,7 @@ import json5 from "json5";
 
 import { DestinationConverter, SourceConverter, StringTransformResult } from "../types";
 import { renderMarkdownTable } from "../markdownTable";
-import { pythonReprParse, pythonReprStringify } from "./pythonRepr";
+import { pythonReprParse, pythonReprParseMultiple, pythonReprStringify } from "./pythonRepr";
 import { tableConverter } from "./table";
 import { xlsxConverter } from "./xlsx";
 
@@ -35,6 +35,7 @@ export const sourceConverters = {
   yaml: YAML.parse,
   yamlMulti: (s) => YAML.parseAllDocuments(s).map((d) => d.toJSON()),
   pythonLiteral: pythonReprParse,
+  pythonLiterals: pythonReprParseMultiple,
 } as const satisfies Record<string, SourceConverter>;
 
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
@@ -90,6 +91,7 @@ export const converterPrettyNames: Record<ConverterName, string> = {
   yaml: "YAML",
   yamlMulti: "YAML (multiple documents)",
   pythonLiteral: "Python literal",
+  pythonLiterals: "Python literals (multiple)",
 };
 
 export const converterDescriptions: Partial<Record<ConverterName, string>> = {
