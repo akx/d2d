@@ -37,6 +37,15 @@ class PythonReprParser {
     return result;
   }
 
+  parseMultiple(): PythonLiteral[] {
+    const results: PythonLiteral[] = [];
+    while (this.pos < this.input.length) {
+      results.push(this.parse());
+      this.skipWhitespace();
+    }
+    return results;
+  }
+
   private parseValue(): PythonLiteral {
     this.skipWhitespace();
 
@@ -401,6 +410,9 @@ class PythonReprDumper {
 
 export function pythonReprParse(input: string): PythonLiteral {
   return new PythonReprParser(input).parse();
+}
+export function pythonReprParseMultiple(input: string): PythonLiteral[] {
+  return new PythonReprParser(input).parseMultiple();
 }
 
 export function pythonReprStringify(obj: any): string {

@@ -64,6 +64,7 @@ export const sourceSamples: Record<SourceConverterName, string> = {
   jsonl: `${json}\n${json}`,
   lines: "Hello\nWorld\n# Octothorpe comments are ignored, as are blank lines:\n\n\n\nHernekeitto",
   pythonLiteral,
+  pythonLiterals: `${pythonLiteral}\n${pythonLiteral}`,
   scsv,
   text: "Some arbitrary text",
   toml,
