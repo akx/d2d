@@ -276,13 +276,13 @@ class PythonReprParser {
   }
 
   private skipWhitespace() {
-    while (this.pos < this.input.length && /\s/.test(this.input[this.pos])) {
+    while (this.pos < this.input.length && /\s/.test(this.input[this.pos]!)) {
       this.pos++;
     }
   }
 
-  private isDigit(char: string): boolean {
-    return /\d/.test(char);
+  private isDigit(char: string | undefined): boolean {
+    return !!(char && /\d/.test(char));
   }
 
   private expectChar(expected: string, context: string = "") {

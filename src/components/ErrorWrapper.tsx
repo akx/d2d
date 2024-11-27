@@ -1,8 +1,8 @@
 import React from "react";
 
-type ErrorRenderer = (error: Error, errorInfo: React.ErrorInfo | undefined, reset: () => void) => React.ReactChild;
+type ErrorRenderer = (error: Error, errorInfo: React.ErrorInfo | undefined, reset: () => void) => React.ReactElement;
 
-const defaultRenderError: ErrorRenderer = (error, errorInfo, reset) => (
+const defaultRenderError: ErrorRenderer = (error, _errorInfo, reset) => (
   <div>
     Oops! An error occurred: ${error.toString()}
     <br />
@@ -13,7 +13,7 @@ const defaultRenderError: ErrorRenderer = (error, errorInfo, reset) => (
 );
 
 interface ErrorWrapperProps {
-  render: () => React.ReactChild;
+  render: () => React.ReactElement;
   renderError?: ErrorRenderer;
 }
 
@@ -23,13 +23,13 @@ interface ErrorWrapperState {
 }
 
 export default class ErrorWrapper extends React.Component<ErrorWrapperProps, ErrorWrapperState> {
-  public state: ErrorWrapperState = {};
+  public override state: ErrorWrapperState = {};
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     this.setState({ error, errorInfo });
   }
 
-  render() {
+  override render() {
     if (this.state.error) {
       return (this.props.renderError || defaultRenderError)(this.state.error, this.state.errorInfo, this.resetError);
     }
@@ -37,6 +37,6 @@ export default class ErrorWrapper extends React.Component<ErrorWrapperProps, Err
   }
 
   private resetError = () => {
-    this.setState({ error: undefined, errorInfo: undefined });
+    this.setState({});
   };
 }

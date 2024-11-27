@@ -1,8 +1,9 @@
 import { Setter, TransformResult } from "./types";
 import React from "react";
 import { sourceSamples } from "./samples";
-import { SourceBox, SourceBoxProps } from "./components/SourceBox";
+import { SourceBox } from "./components/SourceBox";
 import { doTransform } from "./core";
+import { SourceConverterName } from "./converters";
 
 export interface StaticSourceInfo {
   source: string;
@@ -19,7 +20,7 @@ export function useSource(): SourceInfo {
   const [type, setType] = React.useState("yaml");
   const [source, setSource] = React.useState("");
   const loadSample = React.useCallback(() => {
-    setSource(sourceSamples[type] ?? "");
+    setSource(sourceSamples[type as SourceConverterName] ?? "");
   }, [type, setSource]);
   return {
     type,
@@ -31,23 +32,24 @@ export function useSource(): SourceInfo {
 }
 
 export function getSourceBoxFor(sourceInfo: SourceInfo, label?: string, key?: string) {
-  const sourceBoxProps: SourceBoxProps = {
-    source: sourceInfo.source,
-    sourceType: sourceInfo.type,
-    onChangeSource: sourceInfo.setSource,
-    onChangeSourceType: sourceInfo.setType,
-    onLoadSample: sourceInfo.loadSample,
-    label,
-  };
-  return <SourceBox {...sourceBoxProps} key={key} />;
+  return (
+    <SourceBox
+      source={sourceInfo.source}
+      sourceType={sourceInfo.type}
+      onChangeSource={sourceInfo.setSource}
+      onChangeSourceType={sourceInfo.setType}
+      onLoadSample={sourceInfo.loadSample}
+      label={label}
+      key={key}
+    />
+  );
 }
 
 export function useTransformResult(sources: SourceInfo[], transform: string, transformType: string, destType: string) {
   const nSources = sources.length;
   const resultMemoDeps = [nSources, transform, transformType, destType];
   const sourceInfos: StaticSourceInfo[] = [];
-  for (let i = 0; i < nSources; i++) {
-    const { source, type } = sources[i];
+  for (const { source, type } of sources) {
     resultMemoDeps.push(source);
     resultMemoDeps.push(type);
     sourceInfos.push({ source, type });

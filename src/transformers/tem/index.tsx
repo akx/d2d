@@ -14,7 +14,7 @@ export const temTransform: Transformer = {
     });
     return data;
   },
-  getEditor(transform, onChangeTransform): React.ReactChild {
+  getEditor(transform, onChangeTransform): React.ReactElement {
     return <TemEditor transform={transform} onChangeTransform={onChangeTransform} />;
   },
 };

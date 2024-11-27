@@ -51,20 +51,6 @@ export const TransformBox: React.FC<TransformProps> = ({
   style,
 }) => {
   const transformer = transformers[transformType];
-  const editor = transformer.getEditor ? (
-    transformer.getEditor(transform, onChangeTransform, nSources)
-  ) : (
-    <Editor
-      value={transform}
-      options={{
-        mode: "javascript",
-        theme: codeTheme,
-        lineNumbers: true,
-        placeholder: nSources > 1 ? MULTI_SOURCE_PLACEHOLDER : SINGLE_SOURCE_PLACEHOLDER,
-      }}
-      onChange={onChangeTransform}
-    />
-  );
   const ErrorFallback = React.useCallback(
     ({ error, resetErrorBoundary }: FallbackProps) => {
       return (
@@ -88,6 +74,28 @@ export const TransformBox: React.FC<TransformProps> = ({
       );
     },
     [onChangeTransform],
+  );
+
+  if (!transformer) {
+    return (
+      <Message negative>
+        <p>The transform type "{transformType}" is not supported.</p>
+      </Message>
+    );
+  }
+  const editor = transformer.getEditor ? (
+    transformer.getEditor(transform, onChangeTransform, nSources)
+  ) : (
+    <Editor
+      value={transform}
+      options={{
+        mode: "javascript",
+        theme: codeTheme,
+        lineNumbers: true,
+        placeholder: nSources > 1 ? MULTI_SOURCE_PLACEHOLDER : SINGLE_SOURCE_PLACEHOLDER,
+      }}
+      onChange={onChangeTransform}
+    />
   );
 
   return (
