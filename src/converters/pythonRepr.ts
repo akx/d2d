@@ -1,5 +1,3 @@
-// For all practical purposes, this code was written by Claude, so there's that.
-
 export class ParseError extends Error {
   constructor(message: string) {
     super(message);
@@ -175,7 +173,7 @@ class PythonReprParser {
       this.skipWhitespace();
 
       if (list.length > 0) {
-        this.expectChar(",");
+        this.expectChar(",", "to separate list items");
         this.skipWhitespace();
 
         // Handle trailing comma
@@ -185,7 +183,7 @@ class PythonReprParser {
       list.push(this.parseValue());
     }
 
-    this.expectChar("]");
+    this.expectChar("]", "to close a list");
     return list;
   }
 
@@ -216,23 +214,23 @@ class PythonReprParser {
     const dict: PythonDict = {};
 
     // Parse first key-value pair
-    this.expectChar(":");
+    this.expectChar(":", "parsing a dict's first key-value pair");
     dict[String(firstKey)] = this.parseValue();
 
     while (this.pos < this.input.length && this.input[this.pos] !== "}") {
       this.skipWhitespace();
-      this.expectChar(",");
+      this.expectChar(",", "separating dict items");
       this.skipWhitespace();
 
       // Handle trailing comma
       if (this.input[this.pos] === "}") break;
 
       const key = this.parseValue();
-      this.expectChar(":");
+      this.expectChar(":", "parsing a dict's key-value pair");
       dict[String(key)] = this.parseValue();
     }
 
-    this.expectChar("}");
+    this.expectChar("}", "to close a dict");
     return dict;
   }
 
@@ -242,7 +240,7 @@ class PythonReprParser {
 
     while (this.pos < this.input.length && this.input[this.pos] !== "}") {
       this.skipWhitespace();
-      this.expectChar(",");
+      this.expectChar(",", "to separate set items");
       this.skipWhitespace();
 
       // Handle trailing comma
@@ -251,7 +249,7 @@ class PythonReprParser {
       set.add(this.parseValue());
     }
 
-    this.expectChar("}");
+    this.expectChar("}", "to close a set");
     return set;
   }
 
@@ -263,7 +261,7 @@ class PythonReprParser {
       this.skipWhitespace();
 
       if (tuple.length > 0) {
-        this.expectChar(",");
+        this.expectChar(",", "to separate tuple items");
         this.skipWhitespace();
 
         // Handle trailing comma
@@ -273,7 +271,7 @@ class PythonReprParser {
       tuple.push(this.parseValue());
     }
 
-    this.expectChar(")");
+    this.expectChar(")", "to close a tuple");
     return tuple;
   }
 
@@ -287,9 +285,11 @@ class PythonReprParser {
     return /\d/.test(char);
   }
 
-  private expectChar(expected: string) {
-    if (this.input[this.pos] !== expected) {
-      throw new ParseError(`Expected '${expected}', found '${this.input[this.pos]}'`);
+  private expectChar(expected: string, context: string = "") {
+    const input = this.input[this.pos];
+    if (input !== expected) {
+      const prefix = `Expected '${expected}'` + (context ? ` ${context}` : "");
+      throw new ParseError(`${prefix}, found '${input ?? "end of input"}'`);
     }
     this.pos++;
   }
