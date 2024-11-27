@@ -1,4 +1,3 @@
-import { DestinationConverter } from "../types";
 import React from "react";
 import { Button } from "semantic-ui-react";
 
@@ -26,7 +25,7 @@ const ExportButton = ({ label, format, data }: { label: string; format: string; 
   </Button>
 );
 
-const XlsxView = ({ data }: { data: any }) => {
+export const XlsxView = ({ data }: { data: any }) => {
   return (
     <div style={{ textAlign: "center" }}>
       <ExportButton label="Download XLSX" format="xlsx" data={data} />
@@ -35,9 +34,3 @@ const XlsxView = ({ data }: { data: any }) => {
     </div>
   );
 };
-
-export const xlsxConverter: DestinationConverter = (data) => ({
-  error: null,
-  type: "element",
-  element: <XlsxView data={data} />,
-});

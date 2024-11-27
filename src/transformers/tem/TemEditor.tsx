@@ -1,19 +1,10 @@
-import { Transformer } from "../types";
+import { TemState } from "./types";
 import React from "react";
-import { TransformSourceProps } from "../components/TransformBox";
 import { Button, Input } from "semantic-ui-react";
 import Icon from "semantic-ui-react/dist/commonjs/elements/Icon";
+import { TransformSourceProps } from "../../components/TransformBox";
 
-interface TemRule {
-  match: string;
-  replace: string;
-}
-
-interface TemState {
-  rules: TemRule[];
-}
-
-const TemEditor: React.FC<TransformSourceProps> = ({ transform, onChangeTransform }) => {
+export function TemEditor({ transform, onChangeTransform }: TransformSourceProps) {
   let state: TemState = { rules: [] };
   if (transform.trim()) {
     try {
@@ -102,20 +93,4 @@ const TemEditor: React.FC<TransformSourceProps> = ({ transform, onChangeTransfor
       </tbody>
     </table>
   );
-};
-
-export const temTransform: Transformer = {
-  transform(inputs, transform) {
-    const rules: TemRule[] = (JSON.parse(transform) as TemState).rules;
-    let data = Array.isArray(inputs[0]) ? inputs.map((s) => `${s}`).join("\n") : `${inputs[0]}`;
-    rules.forEach((rule) => {
-      if (!rule.match) return;
-      const matchRe = new RegExp(rule.match, "gm");
-      data = data.replace(matchRe, rule.replace);
-    });
-    return data;
-  },
-  getEditor(transform, onChangeTransform): React.ReactChild {
-    return <TemEditor transform={transform} onChangeTransform={onChangeTransform} />;
-  },
-};
+}

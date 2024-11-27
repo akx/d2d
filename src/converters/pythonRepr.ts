@@ -7,15 +7,7 @@ export class ParseError extends Error {
   }
 }
 
-type PythonLiteral =
-  | string
-  | number
-  | boolean
-  | null
-  | PythonList
-  | PythonDict
-  | PythonTuple
-  | PythonSet;
+type PythonLiteral = string | number | boolean | null | PythonList | PythonDict | PythonTuple | PythonSet;
 
 type PythonList = PythonLiteral[];
 type PythonDict = { [key: string]: PythonLiteral };
@@ -27,7 +19,7 @@ class PythonReprParser {
   private pos: number;
   private readonly allowTrailingData: boolean;
 
-  constructor(input: string, allowTrailingData: boolean=true) {
+  constructor(input: string, allowTrailingData: boolean = true) {
     this.input = input.trim();
     this.pos = 0;
     this.allowTrailingData = allowTrailingData;
@@ -37,8 +29,8 @@ class PythonReprParser {
     this.skipWhitespace();
     const result = this.parseValue();
 
-    if(!this.allowTrailingData) {
-    this.skipWhitespace();
+    if (!this.allowTrailingData) {
+      this.skipWhitespace();
       if (this.pos !== this.input.length) {
         throw new ParseError("Unexpected tokens at end of input");
       }
@@ -52,7 +44,7 @@ class PythonReprParser {
 
     const char = this.input[this.pos];
 
-    if (char === "\"" || char === "'") return this.parseString();
+    if (char === '"' || char === "'") return this.parseString();
     if (char === "-" || this.isDigit(char)) return this.parseNumber();
     if (char === "N" && this.input.slice(this.pos, this.pos + 4) === "None") return this.parseNone();
     if (char === "T" && this.input.slice(this.pos, this.pos + 4) === "True") return this.parseBoolean(true);
@@ -88,8 +80,8 @@ class PythonReprParser {
           case "\\":
             result += "\\";
             break;
-          case "\"":
-            result += "\"";
+          case '"':
+            result += '"';
             break;
           case "'":
             result += "'";

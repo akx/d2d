@@ -1,5 +1,3 @@
-import { DestinationConverter } from "../types";
-import ErrorWrapper from "./ErrorWrapper";
 import React from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
 import Loadable from "react-loadable";
@@ -15,7 +13,7 @@ const CellRenderer = ({ value }: CellInfo) => {
     try {
       value = JSON.stringify(value);
     } catch (error) {
-      value = "<unrenderable>";
+      value = `<unrenderable: ${error}>`;
     }
   }
   return <>{value}</>;
@@ -38,7 +36,7 @@ function getColumns(dataArray: any[]): string[] {
 }
 
 // eslint-disable-next-line react/display-name
-const TableView = React.memo(({ data }: { data: any }) => {
+export const TableView = React.memo(({ data }: { data: any }) => {
   try {
     const dataArray = Array.from(data);
     const columnOrder = getColumns(dataArray);
@@ -62,10 +60,4 @@ const TableView = React.memo(({ data }: { data: any }) => {
   } catch (error) {
     return <ErrorDisplay result={{ phase: "output", error, type: "error" }} />;
   }
-});
-
-export const tableConverter: DestinationConverter = (data) => ({
-  error: null,
-  type: "element",
-  element: <ErrorWrapper render={() => <TableView data={data} />} />,
 });

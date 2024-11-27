@@ -25,7 +25,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
 }) => {
   return (
     <Menu fluid>
-      <Dropdown item text={`Layout: ${layoutNames[layout]}` || layout}>
+      <Dropdown item text={`Layout: ${layoutNames[layout] || layout}`}>
         <Dropdown.Menu>
           {Object.entries(layoutNames).map(([id, name]) => (
             <Dropdown.Item
