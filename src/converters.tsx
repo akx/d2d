@@ -7,6 +7,7 @@ import { DestinationConverter, SourceConverter, StringTransformResult } from "./
 import { tableConverter } from "./components/TableView";
 import { xlsxConverter } from "./components/XlsxView";
 import { renderMarkdownTable } from "./markdownTable";
+import { pythonReprParse } from "./pythonRepr";
 
 const csv = dsvFormat(",");
 const scsv = dsvFormat(";");
@@ -30,6 +31,7 @@ export const sourceConverters: { [key: string]: SourceConverter } = {
   tsv: tsv.parse,
   yaml: YAML.parse,
   yamlMulti: (s) => YAML.parseAllDocuments(s).map((d) => d.toJSON()),
+  pythonLiteral: pythonReprParse,
 };
 
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
@@ -67,6 +69,7 @@ export const converterPrettyNames: { [key: ConverterName]: string } = {
   xlsx: "XLS/XLSX",
   yaml: "YAML",
   yamlMulti: "YAML (multiple documents)",
+  pythonLiteral: "Python literal",
 };
 
 export const converterDescriptions: { [key: ConverterName]: string } = {
