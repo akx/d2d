@@ -19,7 +19,7 @@ export function useSource(): SourceInfo {
   const [type, setType] = React.useState("yaml");
   const [source, setSource] = React.useState("");
   const loadSample = React.useCallback(() => {
-    setSource(sourceSamples[type]);
+    setSource(sourceSamples[type] ?? "");
   }, [type, setSource]);
   return {
     type,
