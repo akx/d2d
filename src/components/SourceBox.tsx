@@ -9,7 +9,6 @@ import {
   SourceConverterName,
   sourceConverters,
 } from "../converters";
-import { Button, Menu, Message } from "semantic-ui-react";
 import { SelectDropdown } from "./SelectDropdown";
 
 export interface SourceBoxProps extends Styleable {
@@ -38,23 +37,21 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
   const editor =
     source.length > longValueThreshold && !disablePlaceholder ? (
       <div>
-        <Message>
-          <Message.Header>Large Content</Message.Header>
-          <p>
-            The length of this data is {source.length.toLocaleString()} characters.
-            <br />
-            Showing it may cause performance problems.
-            <br />
-          </p>
-          <p>
-            <Button primary onClick={() => setDisablePlaceholder(true)}>
-              Show it anyway
-            </Button>
-            <Button negative basic onClick={clearData}>
-              Clear the data
-            </Button>
-          </p>
-        </Message>
+        <h1 className="text-2xl">Large Content</h1>
+        <p>
+          The length of this data is {source.length.toLocaleString()} characters.
+          <br />
+          Showing it may cause performance problems.
+          <br />
+        </p>
+        <p>
+          <button type="button" className="btn btn-primary" onClick={() => setDisablePlaceholder(true)}>
+            Show it anyway
+          </button>
+          <button type="button" className="btn btn-warning" onClick={clearData}>
+            Clear the data
+          </button>
+        </p>
       </div>
     ) : (
       <Editor
@@ -70,9 +67,10 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
     );
   return (
     <div className="codebox-wrapper" style={style}>
-      <Menu secondary size="small" style={{ margin: 0 }}>
-        {label ? <Menu.Item style={{ fontWeight: "bold" }}>{label}</Menu.Item> : null}
+      <div className="flex items-center gap-2 border-b border-gray-200 overflow-x-clip">
+        {label ? <div className="font-bold">{label}</div> : null}
         <SelectDropdown
+          className="p-2"
           label="Source Format"
           value={sourceType}
           options={Object.keys(sourceConverters)}
@@ -80,10 +78,15 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
           nameMap={converterPrettyNames}
           descriptionMap={converterDescriptions}
         />
-        <Menu.Item name="loadSample" onClick={onLoadSample}>
+        <button
+          type="button"
+          name="loadSample"
+          className="hover:bg-gray-50 select-none p-2 cursor-pointer whitespace-nowrap"
+          onClick={onLoadSample}
+        >
           Load {converterPrettyNames[sourceType as ConverterName] || sourceType} Sample
-        </Menu.Item>
-      </Menu>
+        </button>
+      </div>
       {editor}
     </div>
   );

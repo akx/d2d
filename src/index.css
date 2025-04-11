@@ -1,26 +1,37 @@
-body {
-  display: flex;
-  flex-direction: column;
+@import "tailwindcss";
+
+@plugin "daisyui";
+
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(@fontsource/lato/files/lato-latin-400-normal.woff2) format("woff2");
 }
 
-#root {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+@font-face {
+  font-family: "Lato";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(@fontsource/lato/files/lato-latin-400-italic.woff2) format("woff2");
 }
 
-#settings {
-  display: flex;
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(@fontsource/lato/files/lato-latin-700-normal.woff2) format("woff2");
 }
 
-#settings > div {
-  flex: 1;
-  padding: 5px;
+@theme {
+  --font-sans: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-#main-panes {
-  position: relative;
-  flex: 1;
+html {
+  font-size: 10pt;
 }
 
 .codebox-wrapper,
@@ -35,22 +46,6 @@ body {
 .code-editor .CodeMirror,
 textarea {
   flex: 1;
-}
-
-.error-result {
-  padding: 5px;
-  color: #500;
-}
-
-.error-message {
-  font-weight: bold;
-  padding: 1em;
-  white-space: pre-line;
-}
-
-.error-stack {
-  padding: 1em;
-  white-space: pre-line;
 }
 
 .Pane {
