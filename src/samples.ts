@@ -41,8 +41,6 @@ const jsonData = [
   },
 ];
 
-const json = JSON.stringify(jsonData, null, 2);
-
 const scsv = `"A","B","C"
 "One","Two","Three"
 "Two","Four","Five"
@@ -69,10 +67,10 @@ const xml = `
 
 export const sourceSamples: Record<SourceConverterName, string> = {
   csv,
-  json,
+  json: JSON.stringify(jsonData, null, 2),
   json5,
   jsonl5: `${json5}\n${json5}`,
-  jsonl: `${json}\n${json}`,
+  jsonl: `${JSON.stringify(jsonData)}\n${JSON.stringify(jsonData)}`,
   lines: "Hello\nWorld\n# Octothorpe comments are ignored, as are blank lines:\n\n\n\nHernekeitto",
   pythonLiteral,
   pythonLiterals: `${pythonLiteral}\n${pythonLiteral}`,
