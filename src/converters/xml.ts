@@ -9,7 +9,7 @@ const prettifyXSLT = `
   </xsl:template>
   <xsl:output indent="yes"/>
 </xsl:stylesheet>
-`;
+`.trim();
 
 // Via https://stackoverflow.com/a/47317538/51685
 function prettifyXml(xmlDoc: XMLDocument) {
