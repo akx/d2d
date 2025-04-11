@@ -1,5 +1,5 @@
 import React from "react";
-import { Dropdown, Menu } from "semantic-ui-react";
+import { Dropdown, Menu, MenuItem, MenuMenu } from "semantic-ui-react";
 import { destinationConverters, converterDescriptions, converterPrettyNames } from "../converters";
 import { layoutNames, MainLayout, Setter } from "../types";
 import { SelectDropdown } from "./SelectDropdown";
@@ -15,14 +15,7 @@ interface ToolbarProps {
 
 const nSourcesOptions = [1, 2, 3];
 
-export const Toolbar: React.FC<ToolbarProps> = ({
-  destType,
-  layout,
-  setDestType,
-  setLayout,
-  nSources,
-  setNSources,
-}) => {
+export function Toolbar({ destType, layout, setDestType, setLayout, nSources, setNSources }: ToolbarProps) {
   return (
     <Menu fluid>
       <Dropdown item text={`Layout: ${layoutNames[layout] || layout}`}>
@@ -53,6 +46,13 @@ export const Toolbar: React.FC<ToolbarProps> = ({
         descriptionMap={converterDescriptions}
         nameMap={converterPrettyNames}
       />
+      <MenuMenu position="right">
+        <MenuItem>
+          <b>d2d</b>&nbsp;by&nbsp;<a href="https://akx.github.io/">@akx</a>
+          &nbsp;&middot;&nbsp;
+          <a href="https://github.com/akx/d2d/">GitHub</a>
+        </MenuItem>
+      </MenuMenu>
     </Menu>
   );
-};
+}
