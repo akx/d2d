@@ -26,3 +26,15 @@ export function toPrettyXML(obj: any) {
   }
   throw new Error(`Unable to prettify XML from the object: ${obj}`);
 }
+
+export function toDefaultXML(obj: any) {
+  if (obj instanceof XMLDocument) {
+    return new XMLSerializer().serializeToString(obj);
+  }
+  throw new Error(`Unable to prettify XML from the object: ${obj}`);
+}
+
+export function parseXML(data: string) {
+  const parser = new DOMParser();
+  return parser.parseFromString(data.trim(), "application/xml");
+}

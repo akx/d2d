@@ -65,7 +65,7 @@ const xml = `
 <person> <id>2</id> <name>Mikko Korhonen</name>
 <email>mikko.k@example.com</email> <phone>0509876543</phone> <address>
 <street>Asematie 10</street> <city>Turku</city> <zip>20100</zip> </address> </person> </contacts>
-`;
+`.trim();
 
 export const sourceSamples: Record<SourceConverterName, string> = {
   csv,

@@ -9,7 +9,7 @@ import { renderMarkdownTable } from "../markdownTable";
 import { pythonReprParse, pythonReprParseMultiple, pythonReprStringify } from "./pythonRepr";
 import { tableConverter } from "./table";
 import { xlsxConverter } from "./xlsx";
-import { toPrettyXML } from "./xml";
+import { parseXML, toDefaultXML, toPrettyXML } from "./xml";
 
 const csv = dsvFormat(",");
 const scsv = dsvFormat(";");
@@ -20,11 +20,6 @@ function parseLines(data: string) {
     s = s.trimStart();
     return s && !s.startsWith("#");
   });
-}
-
-function parseXML(data: string) {
-  const parser = new DOMParser();
-  return parser.parseFromString(data, "application/xml");
 }
 
 export const sourceConverters = {
@@ -73,6 +68,7 @@ export const destinationConverters = {
   markdownTable: stringTransform(renderMarkdownTable),
   table: tableConverter,
   xlsx: xlsxConverter,
+  xmlDefault: stringTransform(toDefaultXML),
   xmlPretty: stringTransform(toPrettyXML),
   pythonLiteral: stringTransform(pythonReprStringify),
 } as const satisfies Record<string, DestinationConverter>;
@@ -97,6 +93,7 @@ export const converterPrettyNames: Record<ConverterName, string> = {
   tsv: "TSV",
   xlsx: "XLS/XLSX",
   xml: "XML (DOM Document)",
+  xmlDefault: "XML (default)",
   xmlPretty: "XML (pretty-printed)",
   yaml: "YAML",
   yamlMulti: "YAML (multiple documents)",
