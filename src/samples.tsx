@@ -56,6 +56,17 @@ Three,Six,Seven`;
 const pythonLiteral = `["a", {"b": (1, 2)}, {3, 4, 5}]`;
 const json5 = `{koo:'poo'/*bla*/,}`;
 
+const xml = `
+<?xml version="1.0" encoding="UTF-8"?> <contacts>
+<person> <id>1</id> <name>Anna Virtanen</name>
+<email>anna.virtanen@example.com</email>
+<phone>0401234567</phone> <address>
+<street>Keskuskatu 5</street> <city>Helsinki</city> <zip>00100</zip> </address> </person>
+<person> <id>2</id> <name>Mikko Korhonen</name>
+<email>mikko.k@example.com</email> <phone>0509876543</phone> <address>
+<street>Asematie 10</street> <city>Turku</city> <zip>20100</zip> </address> </person> </contacts>
+`;
+
 export const sourceSamples: Record<SourceConverterName, string> = {
   csv,
   json,
@@ -69,6 +80,7 @@ export const sourceSamples: Record<SourceConverterName, string> = {
   text: "Some arbitrary text",
   toml,
   tsv,
+  xml,
   yaml,
   yamlMulti: `${yaml}\n---\n${yaml}`,
 };
