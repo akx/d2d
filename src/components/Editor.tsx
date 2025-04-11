@@ -1,9 +1,10 @@
 import { EditorConfiguration } from "codemirror";
 import { Controlled as ControlledCodeMirror } from "react-codemirror2";
 import React from "react";
-import { Checkbox, Icon, Popup } from "semantic-ui-react";
-import { toast } from "react-semantic-toasts";
+import { Checkbox } from "../widgets";
+import { toast } from "react-hot-toast";
 import { longValueThreshold } from "../consts";
+import { FaCopy } from "react-icons/fa";
 
 interface EditorProps {
   value: string;
@@ -11,69 +12,41 @@ interface EditorProps {
   onChange: (newValue: string) => void;
 }
 
-const Editor: React.FC<EditorProps> = ({ value, options, onChange }) => {
+export default function Editor({ value, options, onChange }: EditorProps) {
   const [lineWrapping, setLineWrapping] = React.useState(false);
-  const [plainEditor, setPlainEditor] = React.useState(value && value.length > longValueThreshold);
+  const [plainEditor, setPlainEditor] = React.useState(!!(value && value.length > longValueThreshold));
   const handleCopy = () =>
     navigator.clipboard.writeText(value).then(
-      () => toast({ type: "success", title: `Copied ${value.length} characters.` }),
-      () => toast({ type: "warning", title: "Copy failed." }),
+      () => toast.success(`Copied ${value.length} characters.`),
+      () => toast.error("Copy failed."),
     );
   const placeholder = typeof options.placeholder === "string" ? options.placeholder : undefined;
   return (
-    <>
-      {plainEditor ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
-      ) : (
-        <ControlledCodeMirror
-          className="code-editor"
-          value={value}
-          options={{ ...options, lineWrapping }}
-          onBeforeChange={(_editor, _data, value) => onChange(value)}
-        />
-      )}
-      <Icon
-        circular
-        name="copy"
-        style={{
-          position: "absolute",
-          right: "35px",
-          bottom: "5px",
-        }}
-        link
-        title="Copy content"
-        onClick={handleCopy}
-      />
-      <Popup
-        trigger={
-          <Icon
-            circular
-            name="setting"
-            style={{
-              position: "absolute",
-              right: "5px",
-              bottom: "5px",
-            }}
+    <div className="flex flex-col grow">
+      <div className="flex grow">
+        {plainEditor ? (
+          <textarea
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className="font-mono p-2"
           />
-        }
-        hoverable
-        plain
-        basic
-      >
-        <Checkbox
-          label="Wrap Lines"
-          checked={lineWrapping}
-          onChange={(_event, data) => setLineWrapping(!!data.checked)}
-        />
-        <br />
-        <Checkbox
-          label="Plain Editor"
-          checked={!!plainEditor}
-          onChange={(_event, data) => setPlainEditor(!!data.checked)}
-        />
-      </Popup>
-    </>
+        ) : (
+          <ControlledCodeMirror
+            className="code-editor"
+            value={value}
+            options={{ ...options, lineWrapping }}
+            onBeforeChange={(_editor, _data, value) => onChange(value)}
+          />
+        )}
+      </div>
+      <div className="*:p-1.5 flex gap-1 border-y border-gray-200 @container overflow-x-clip">
+        <button type="button" className="hover:bg-gray-50 cursor-pointer" onClick={handleCopy}>
+          <FaCopy className="inline" /> <span className="hidden @min-sm:inline">Copy</span>
+        </button>
+        <Checkbox label="Wrap Lines" shortLabel="Wrap" checked={lineWrapping} onChange={setLineWrapping} />
+        <Checkbox label="Plain Editor" shortLabel="Plain" checked={plainEditor} onChange={setPlainEditor} />
+      </div>
+    </div>
   );
-};
-
-export default Editor;
+}

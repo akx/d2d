@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "semantic-ui-react";
 
 async function generateAndDownloadXlsx(data: any, extension: string) {
   const pXLSX = import("xlsx");
@@ -12,7 +11,9 @@ async function generateAndDownloadXlsx(data: any, extension: string) {
 }
 
 const ExportButton = ({ label, format, data }: { label: string; format: string; data: any }) => (
-  <Button
+  <button
+    type="button"
+    className="btn"
     onClick={async () => {
       try {
         await generateAndDownloadXlsx(data, format);
@@ -22,7 +23,7 @@ const ExportButton = ({ label, format, data }: { label: string; format: string; 
     }}
   >
     {label}
-  </Button>
+  </button>
 );
 
 export const XlsxView = ({ data }: { data: any }) => {

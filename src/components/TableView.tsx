@@ -1,12 +1,8 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
-import Loadable from "react-loadable";
 import { CellInfo } from "react-table";
 
-const LoadableTable = Loadable({
-  loader: () => import("react-table"),
-  loading: () => <div>Loading table</div>,
-});
+const LoadableTable = React.lazy(() => import("react-table"));
 
 const CellRenderer = ({ value }: CellInfo) => {
   if (typeof value === "object") {
@@ -52,10 +48,12 @@ export const TableView = React.memo(({ data }: { data: any }) => {
       );
     }
     return (
-      <LoadableTable
-        data={dataArray}
-        columns={columnOrder.map((col) => ({ accessor: col, Header: col, Cell: CellRenderer }))}
-      />
+      <Suspense fallback={<div>Loading table...</div>}>
+        <LoadableTable
+          data={dataArray}
+          columns={columnOrder.map((col) => ({ accessor: col, Header: col, Cell: CellRenderer }))}
+        />
+      </Suspense>
     );
   } catch (error) {
     return <ErrorDisplay result={{ phase: "output", error, type: "error" }} />;

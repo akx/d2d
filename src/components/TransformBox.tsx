@@ -2,7 +2,6 @@ import React from "react";
 import Editor from "./Editor";
 import { codeTheme } from "../consts";
 import { Setter, Styleable } from "../types";
-import { Button, Menu, Message } from "semantic-ui-react";
 import { SelectDropdown } from "./SelectDropdown";
 import { prettyTransformNames, transformers } from "../transformers";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
@@ -54,7 +53,7 @@ export const TransformBox: React.FC<TransformProps> = ({
   const ErrorFallback = React.useCallback(
     ({ error, resetErrorBoundary }: FallbackProps) => {
       return (
-        <Message negative>
+        <div>
           <p>
             The editor failed to render. The error message we got was "<b>{error.message}</b>".
           </p>
@@ -62,26 +61,24 @@ export const TransformBox: React.FC<TransformProps> = ({
             You can either change the transform type to something that's compatible with your data, or click below to
             reset your transform code.
           </p>
-          <Button
+          <button
+            type="button"
+            className="btn"
             onClick={() => {
               onChangeTransform("");
               resetErrorBoundary();
             }}
           >
             Reset transform
-          </Button>
-        </Message>
+          </button>
+        </div>
       );
     },
     [onChangeTransform],
   );
 
   if (!transformer) {
-    return (
-      <Message negative>
-        <p>The transform type "{transformType}" is not supported.</p>
-      </Message>
-    );
+    return <div className="alert alert-warning">The transform type "{transformType}" is not supported.</div>;
   }
   const editor = transformer.getEditor ? (
     transformer.getEditor(transform, onChangeTransform, nSources)
@@ -100,15 +97,16 @@ export const TransformBox: React.FC<TransformProps> = ({
 
   return (
     <div className="codebox-wrapper" style={style}>
-      <Menu secondary size="small" style={{ margin: 0 }}>
+      <div className="flex items-center gap-2 border-b border-gray-200">
         <SelectDropdown
+          className="p-2"
           label="Language"
           value={transformType}
           options={Object.keys(transformers)}
           onChange={onChangeTransformType}
           nameMap={prettyTransformNames}
         />
-      </Menu>
+      </div>
       <ErrorBoundary FallbackComponent={ErrorFallback}>{editor}</ErrorBoundary>
     </div>
   );

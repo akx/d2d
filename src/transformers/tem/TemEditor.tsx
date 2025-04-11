@@ -1,8 +1,7 @@
 import { TemState } from "./types";
 import React from "react";
-import { Button, Input } from "semantic-ui-react";
-import Icon from "semantic-ui-react/dist/commonjs/elements/Icon";
 import { TransformSourceProps } from "../../components/TransformBox";
+import { FaTrash } from "react-icons/fa";
 
 export function TemEditor({ transform, onChangeTransform }: TransformSourceProps) {
   let state: TemState = { rules: [] };
@@ -47,7 +46,7 @@ export function TemEditor({ transform, onChangeTransform }: TransformSourceProps
   };
 
   return (
-    <table>
+    <table className="mx-2">
       <thead>
         <tr>
           <th>Match</th>
@@ -57,8 +56,10 @@ export function TemEditor({ transform, onChangeTransform }: TransformSourceProps
       </thead>
       <tfoot>
         <tr>
-          <th colSpan={3}>
-            <Button onClick={handleAddRule}>Add Rule</Button>
+          <th colSpan={3} className="py-2">
+            <button className="btn" type="button" onClick={handleAddRule}>
+              Add Rule
+            </button>
           </th>
         </tr>
       </tfoot>
@@ -66,8 +67,8 @@ export function TemEditor({ transform, onChangeTransform }: TransformSourceProps
         {state.rules.map((r, i) => (
           <tr key={i}>
             <td>
-              <Input
-                fluid
+              <input
+                className="input input-sm"
                 placeholder="Match regexp"
                 name={`match_${i}`}
                 value={r.match}
@@ -75,8 +76,8 @@ export function TemEditor({ transform, onChangeTransform }: TransformSourceProps
               />
             </td>
             <td>
-              <Input
-                fluid
+              <input
+                className="input input-sm"
                 placeholder="Replacement"
                 name={`replace_${i}`}
                 value={r.replace}
@@ -84,9 +85,9 @@ export function TemEditor({ transform, onChangeTransform }: TransformSourceProps
               />
             </td>
             <td>
-              <Button icon negative onClick={() => deleteRule(i)}>
-                <Icon name="trash" />
-              </Button>
+              <button className="btn btn-sm" type="button" onClick={() => deleteRule(i)}>
+                <FaTrash />
+              </button>
             </td>
           </tr>
         ))}

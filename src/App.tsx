@@ -2,11 +2,10 @@ import React from "react";
 import { MainLayout } from "./types";
 import { Toolbar } from "./components/Toolbar";
 import createPersistedState from "@plq/use-persisted-state";
-import { SemanticToastContainer } from "react-semantic-toasts";
-import "react-semantic-toasts/styles/react-semantic-alert.css";
 import { useSource, useTransformResult } from "./sources";
 import { MainContentPane } from "./components/MainContentPane";
 import storage from "@plq/use-persisted-state/lib/storages/local-storage";
+import { Toaster } from "react-hot-toast";
 
 const [usePersistedState] = createPersistedState("d2d", storage);
 
@@ -23,17 +22,16 @@ const App: React.FC = () => {
   const result = useTransformResult(sources, transform, transformType, destType);
   return (
     <>
-      <div id="settings">
-        <Toolbar
-          nSources={nSources}
-          setNSources={setNSources}
-          destType={destType}
-          setDestType={setDestType}
-          layout={layout}
-          setLayout={setLayout}
-        />
-      </div>
-      <div id="main-panes">
+      <Toaster position="top-right" />
+      <Toolbar
+        nSources={nSources}
+        setNSources={setNSources}
+        destType={destType}
+        setDestType={setDestType}
+        layout={layout}
+        setLayout={setLayout}
+      />
+      <div className="relative flex-1">
         <MainContentPane
           sources={sources}
           transform={transform}
@@ -45,7 +43,6 @@ const App: React.FC = () => {
           layout={layout}
         />
       </div>
-      <SemanticToastContainer position="top-right" />
     </>
   );
 };

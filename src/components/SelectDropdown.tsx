@@ -1,5 +1,6 @@
 import React from "react";
-import { Dropdown, DropdownItemProps } from "semantic-ui-react";
+import { Dropdown } from "../widgets";
+import type { ClassValue } from "clsx";
 
 interface SelectDropdownProps {
   label: string;
@@ -8,39 +9,30 @@ interface SelectDropdownProps {
   onChange: (val: string) => void;
   nameMap: Record<string, string>;
   descriptionMap?: Record<string, string>;
+  className?: ClassValue;
 }
 
-export const SelectDropdown: React.FC<SelectDropdownProps> = ({
+export function SelectDropdown({
   label,
   value,
   options,
   onChange,
   nameMap,
   descriptionMap,
-}) => {
-  const onClick = (event: any, props: DropdownItemProps) => {
-    onChange(props.name);
-    event.preventDefault();
-  };
+  className,
+}: SelectDropdownProps) {
   return (
     <Dropdown
-      item
+      className={className}
       text={`${label}: ${nameMap[value] || value}`}
-      /* TODO: these have no effect :-/ */
-      closeOnChange={false}
-    >
-      <Dropdown.Menu style={{ minWidth: "25em" }}>
-        {options.map((item) => (
-          <Dropdown.Item
-            key={item}
-            name={item}
-            active={value === item}
-            onClick={onClick}
-            text={nameMap[item] || item}
-            description={descriptionMap ? descriptionMap[item] : undefined}
-          />
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
+      items={options.map((item) => ({
+        id: item,
+        name: item,
+        active: value === item,
+        onClick: () => onChange(item),
+        text: nameMap[item] || item,
+        description: descriptionMap?.[item],
+      }))}
+    />
   );
-};
+}

@@ -1,7 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import "semantic-ui-css/semantic.min.css";
 import "react-table/react-table.css";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/solarized.css";
