@@ -38,3 +38,34 @@ export function parseXML(data: string) {
   const parser = new DOMParser();
   return parser.parseFromString(data.trim(), "application/xml");
 }
+
+// Low-effort XML to JS object converter
+export function xmlToJsObject(obj: Element) {
+  const children = [...obj.children];
+  const result: Record<string, any> = {};
+  if (obj.hasAttributes()) {
+    for (const attr of obj.attributes) {
+      result[`@${attr.name}`] = attr.value;
+    }
+  }
+  if (!children.length) {
+    if (!obj.hasAttributes()) {
+      return obj.textContent;
+    }
+    result["#text"] = obj.textContent;
+  }
+
+  for (const child of children) {
+    if (children.filter((c) => c.nodeName === child.nodeName).length > 1) {
+      if (result[child.nodeName] === undefined) {
+        result[child.nodeName] = [xmlToJsObject(child)];
+      } else {
+        result[child.nodeName].push(xmlToJsObject(child));
+      }
+    } else {
+      result[child.nodeName] = xmlToJsObject(child);
+    }
+  }
+
+  return result;
+}

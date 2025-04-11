@@ -9,7 +9,7 @@ import { renderMarkdownTable } from "../markdownTable";
 import { pythonReprParse, pythonReprParseMultiple, pythonReprStringify } from "./pythonRepr";
 import { tableConverter } from "./table";
 import { xlsxConverter } from "./xlsx";
-import { parseXML, toDefaultXML, toPrettyXML } from "./xml";
+import { parseXML, toDefaultXML, toPrettyXML, xmlToJsObject } from "./xml";
 
 const csv = dsvFormat(",");
 const scsv = dsvFormat(";");
@@ -43,6 +43,16 @@ export const sourceConverters = {
 const stringTransform = (fn: (data: any) => string) => (data: any) =>
   ({ value: fn(data), type: "string" }) as StringTransformResult;
 
+function maybeConvertXML(data: any) {
+  if (data instanceof XMLDocument && data.firstElementChild) {
+    data = xmlToJsObject(data.firstElementChild);
+  }
+  return data;
+}
+
+const stringTransformWithXMLIngestion = (fn: (data: any) => string) => (data: any) =>
+  ({ value: fn(maybeConvertXML(data)), type: "string" }) as StringTransformResult;
+
 function jsonReplacer(_key: string, value: any) {
   // Serialize sets as arrays
   if (value instanceof Set) {
@@ -56,14 +66,14 @@ function jsonReplacer(_key: string, value: any) {
 }
 
 export const destinationConverters = {
-  "json-compact": stringTransform((data) => JSON.stringify(data, jsonReplacer)),
+  "json-compact": stringTransformWithXMLIngestion((data) => JSON.stringify(data, jsonReplacer)),
   csv: stringTransform(csv.format),
   scsv: stringTransform(scsv.format),
-  json: stringTransform((data) => JSON.stringify(data, jsonReplacer, 2)),
+  json: stringTransformWithXMLIngestion((data) => JSON.stringify(data, jsonReplacer, 2)),
   text: stringTransform((data) => "" + data),
-  toml: stringTransform(tomlPatch.stringify),
+  toml: stringTransformWithXMLIngestion(tomlPatch.stringify),
   tsv: stringTransform(tsv.format),
-  yaml: stringTransform(YAML.stringify),
+  yaml: stringTransformWithXMLIngestion(YAML.stringify),
   yamlMulti: stringTransform((data) => [...data].map((d) => YAML.stringify(d)).join("---\n")),
   markdownTable: stringTransform(renderMarkdownTable),
   table: tableConverter,
