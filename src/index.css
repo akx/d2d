@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@plugin "daisyui";
+@plugin "daisyui" {
+  logs: false;
+}
 
 @font-face {
   font-family: "Lato";
