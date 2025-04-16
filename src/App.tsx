@@ -5,7 +5,6 @@ import createPersistedState from "@plq/use-persisted-state";
 import { useSource, useTransformResult } from "./sources";
 import { MainContentPane } from "./components/MainContentPane";
 import storage from "@plq/use-persisted-state/lib/storages/local-storage";
-import { Toaster } from "react-hot-toast";
 
 const [usePersistedState] = createPersistedState("d2d", storage);
 
@@ -22,7 +21,6 @@ const App: React.FC = () => {
   const result = useTransformResult(sources, transform, transformType, destType);
   return (
     <>
-      <Toaster position="top-right" />
       <Toolbar
         nSources={nSources}
         setNSources={setNSources}

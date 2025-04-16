@@ -21,7 +21,6 @@
     "react-codemirror2": "^8.0.1",
     "react-dom": "^19.1.0",
     "react-error-boundary": "^5.0.0",
-    "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-table": "^6.10.3",
     "tailwindcss": "^4.1.4",
