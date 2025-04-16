@@ -1,5 +1,5 @@
 import React from "react";
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown } from "../icons";
 import { DropdownMenu } from "radix-ui";
 import cx, { ClassValue } from "clsx";
 

@@ -1,7 +1,7 @@
 import { TemState } from "./types";
 import React from "react";
 import { TransformSourceProps } from "../../components/TransformBox";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash } from "../../icons";
 
 export function TemEditor({ transform, onChangeTransform }: TransformSourceProps) {
   let state: TemState = { rules: [] };

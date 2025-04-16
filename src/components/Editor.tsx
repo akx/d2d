@@ -4,7 +4,7 @@ import React from "react";
 import { Checkbox } from "../widgets";
 import { toast } from "react-hot-toast";
 import { longValueThreshold } from "../consts";
-import { FaCopy } from "react-icons/fa";
+import { FaCopy } from "../icons";
 
 interface EditorProps {
   value: string;
