@@ -40,8 +40,8 @@ export default function Editor({ value, options, onChange }: EditorProps) {
           />
         )}
       </div>
-      <div className="*:p-1.5 flex gap-1 border-y border-gray-200 @container overflow-x-clip">
-        <button type="button" className="hover:bg-gray-50 cursor-pointer" onClick={handleCopy}>
+      <div className="*:p-1.5 flex gap-1 border-y border-zinc-200 @container overflow-x-clip">
+        <button type="button" className="hover:bg-zinc-50 cursor-pointer" onClick={handleCopy}>
           <FaCopy className="inline" /> <span className="hidden @min-sm:inline">Copy</span>
         </button>
         <Checkbox label="Wrap Lines" shortLabel="Wrap" checked={lineWrapping} onChange={setLineWrapping} />

@@ -97,7 +97,7 @@ export const TransformBox: React.FC<TransformProps> = ({
 
   return (
     <div className="codebox-wrapper" style={style}>
-      <div className="flex items-center gap-2 border-b border-gray-200">
+      <div className="flex items-center gap-2 border-b border-zinc-200">
         <SelectDropdown
           className="p-2"
           label="Language"
