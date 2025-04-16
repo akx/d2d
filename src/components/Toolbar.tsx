@@ -17,8 +17,8 @@ const nSourcesOptions = [1, 2, 3];
 
 export function Toolbar({ destType, layout, setDestType, setLayout, nSources, setNSources }: ToolbarProps) {
   return (
-    <div className="flex pe-4 items-center border-b border-gray-200">
-      <div className="flex divide-x divide-gray-200 *:px-4 *:py-3">
+    <div className="flex pe-4 items-center border-b border-zinc-200">
+      <div className="flex divide-x divide-zinc-200 *:px-4 *:py-3">
         <Dropdown
           text={`Layout: ${layoutNames[layout] || layout}`}
           items={Object.entries(layoutNames).map(([id, name]) => ({

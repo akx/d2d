@@ -1,0 +1,7 @@
+[[entry]]
+file = "src/icons.tsx"
+icons = [
+    "react-icons/fa:FaTrash",
+    "react-icons/fa:FaCaretDown",
+    "react-icons/fa:FaCopy",
+]

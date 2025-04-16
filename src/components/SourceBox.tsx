@@ -67,10 +67,9 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
     );
   return (
     <div className="codebox-wrapper" style={style}>
-      <div className="flex items-center gap-2 border-b border-gray-200 overflow-x-clip">
+      <div className="flex items-center border-b border-zinc-200 overflow-x-clip *:px-4 *:py-2 divide-x divide-zinc-200">
         {label ? <div className="font-bold">{label}</div> : null}
         <SelectDropdown
-          className="p-2"
           label="Source Format"
           value={sourceType}
           options={Object.keys(sourceConverters)}
@@ -81,7 +80,7 @@ export const SourceBox: React.FC<SourceBoxProps> = ({
         <button
           type="button"
           name="loadSample"
-          className="hover:bg-gray-50 select-none p-2 cursor-pointer whitespace-nowrap"
+          className="hover:bg-zinc-50 select-none cursor-pointer whitespace-nowrap"
           onClick={onLoadSample}
         >
           Load {converterPrettyNames[sourceType as ConverterName] || sourceType} Sample
