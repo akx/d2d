@@ -2,7 +2,12 @@ import React, { Suspense } from "react";
 import { ErrorDisplay } from "./ErrorDisplay";
 import { CellInfo } from "react-table";
 
-const LoadableTable = React.lazy(() => import("react-table"));
+// react-table v6 ships its own (older) @types/react, so its default export isn't
+// structurally assignable to this project's ComponentType; coerce it for React.lazy.
+const LoadableTable = React.lazy(async () => {
+  const mod = await import("react-table");
+  return { default: mod.default as unknown as React.ComponentType<any> };
+});
 
 const CellRenderer = ({ value }: CellInfo) => {
   if (typeof value === "object") {

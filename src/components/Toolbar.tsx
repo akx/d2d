@@ -1,12 +1,21 @@
 import React from "react";
 import { Dropdown } from "../widgets";
-import { destinationConverters, converterDescriptions, converterPrettyNames } from "../converters";
-import { layoutNames, MainLayout, Setter } from "../types";
+import {
+  converterDescriptions,
+  converterOptionSpecs,
+  converterPrettyNames,
+  DestConverterName,
+  destinationConverters,
+} from "../converters";
+import { ConverterOptionValues, layoutNames, MainLayout, Setter } from "../types";
 import { SelectDropdown } from "./SelectDropdown";
+import { ConverterOptions } from "./ConverterOptions";
 
 interface ToolbarProps {
   destType: string;
   setDestType: Setter<string>;
+  destOptions: ConverterOptionValues;
+  setDestOption: (key: string, value: string | number | boolean) => void;
   layout: MainLayout;
   setLayout: Setter<MainLayout>;
   nSources: number;
@@ -15,7 +24,17 @@ interface ToolbarProps {
 
 const nSourcesOptions = [1, 2, 3];
 
-export function Toolbar({ destType, layout, setDestType, setLayout, nSources, setNSources }: ToolbarProps) {
+export function Toolbar({
+  destType,
+  layout,
+  setDestType,
+  destOptions,
+  setDestOption,
+  setLayout,
+  nSources,
+  setNSources,
+}: ToolbarProps) {
+  const optionsSpec = converterOptionSpecs[destType as DestConverterName];
   return (
     <div className="flex pe-4 items-center border-b border-zinc-200">
       <div className="flex divide-x divide-zinc-200 *:px-4 *:py-3">
@@ -47,6 +66,7 @@ export function Toolbar({ destType, layout, setDestType, setLayout, nSources, se
           descriptionMap={converterDescriptions}
           nameMap={converterPrettyNames}
         />
+        {optionsSpec ? <ConverterOptions spec={optionsSpec} values={destOptions} onChange={setDestOption} /> : null}
       </div>
       <div className="grow" />
       <div>

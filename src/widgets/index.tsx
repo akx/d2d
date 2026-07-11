@@ -12,7 +12,7 @@ interface CheckboxProps {
 
 export function Checkbox({ label, shortLabel, checked, onChange }: CheckboxProps) {
   return (
-    <label className="flex items-center gap-2 select-none">
+    <label className="flex items-center gap-2 select-none text-nowrap">
       <input
         type="checkbox"
         checked={checked}

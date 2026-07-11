@@ -52,10 +52,11 @@ export const TransformBox: React.FC<TransformProps> = ({
   const transformer = transformers[transformType];
   const ErrorFallback = React.useCallback(
     ({ error, resetErrorBoundary }: FallbackProps) => {
+      const message = error instanceof Error ? error.message : String(error);
       return (
         <div>
           <p>
-            The editor failed to render. The error message we got was "<b>{error.message}</b>".
+            The editor failed to render. The error message we got was "<b>{message}</b>".
           </p>
           <p>
             You can either change the transform type to something that's compatible with your data, or click below to

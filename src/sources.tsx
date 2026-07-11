@@ -1,4 +1,4 @@
-import { Setter, TransformResult } from "./types";
+import { ConverterOptionValues, Setter, TransformResult } from "./types";
 import React from "react";
 import { sourceSamples } from "./samples";
 import { SourceBox } from "./components/SourceBox";
@@ -45,9 +45,16 @@ export function getSourceBoxFor(sourceInfo: SourceInfo, label?: string, key?: st
   );
 }
 
-export function useTransformResult(sources: SourceInfo[], transform: string, transformType: string, destType: string) {
+export function useTransformResult(
+  sources: SourceInfo[],
+  transform: string,
+  transformType: string,
+  destType: string,
+  destOptions?: ConverterOptionValues,
+) {
   const nSources = sources.length;
-  const resultMemoDeps = [nSources, transform, transformType, destType];
+  const destOptionsKey = JSON.stringify(destOptions ?? null);
+  const resultMemoDeps = [nSources, transform, transformType, destType, destOptionsKey];
   const sourceInfos: StaticSourceInfo[] = [];
   for (const { source, type } of sources) {
     resultMemoDeps.push(source);
@@ -55,7 +62,7 @@ export function useTransformResult(sources: SourceInfo[], transform: string, tra
     sourceInfos.push({ source, type });
   }
   const result: TransformResult = React.useMemo(
-    () => doTransform(sourceInfos, transform, transformType, destType),
+    () => doTransform(sourceInfos, transform, transformType, destType, destOptions),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     resultMemoDeps,
   );

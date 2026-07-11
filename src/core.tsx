@@ -1,6 +1,6 @@
 import { DestConverterName, destinationConverters, SourceConverterName, sourceConverters } from "./converters";
 import { transformers } from "./transformers";
-import { SourceConverter, TransformResult } from "./types";
+import { ConverterOptionValues, SourceConverter, TransformResult } from "./types";
 import { StaticSourceInfo } from "./sources";
 
 export function doTransform(
@@ -8,6 +8,7 @@ export function doTransform(
   transform: string,
   transformType: string,
   destType: string,
+  destOptions?: ConverterOptionValues,
 ): TransformResult {
   const inputs: any[] = [];
   for (let index = 0; index < sources.length; index++) {
@@ -26,7 +27,7 @@ export function doTransform(
     return { error, type: "error", phase: "transform" };
   }
   try {
-    return destinationConverters[destType as DestConverterName](data);
+    return destinationConverters[destType as DestConverterName](data, destOptions);
   } catch (error) {
     return { error, type: "error", phase: "output" };
   }

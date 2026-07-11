@@ -28,7 +28,10 @@ export interface Transformer {
   getEditor?: (transform: string, onChangeTransform: Setter<string>, nSources: number) => React.ReactElement;
 }
 
-export type DestinationConverter<T = TransformResult> = (data: any) => T;
+/** Values for a destination converter's user-facing knobs, keyed by option name. */
+export type ConverterOptionValues = Record<string, string | number | boolean>;
+
+export type DestinationConverter<T = TransformResult> = (data: any, options?: ConverterOptionValues) => T;
 
 export interface Styleable {
   style?: React.CSSProperties;
